@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DuDuDu~</string>
+    <string name="sure">确定</string>
+    <string name="back">返回</string>
+    <string name="loading_msg">点我静音</string>
+    <string name="unknow_error">未知错误</string>
+    <string name="network_disable">网络不可用</string>
+    <string name="time_out">请求超时</string>
+    <string name="call_reject">拒接</string>
+    <string name="call_endring">点我静音</string>
+    <string name="call_answer">接听</string>
+    <string name="call_ringing">来电</string>
+    <string name="city_loc">经度：%1$s <Data><![CDATA[ </br> ]]></Data>纬度%1$s</string>
+    <string name="call_ringing_msg">来电:%1$s</string>
+    <string name="percent">%</string>
+    <string name="show_type_activity_msg">开启来电静音</string>
+    <string name="show_type_full_dialog_msg">以全屏弹窗的形式显示来电秀</string>
+    <string name="show_type_half_dialog_msg">自定义来电秀显示的高度(%)</string>
+
+    <string name="error_network">网络错误，请检查网络是否连接</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="error_request">请求失败</string>
+</resources>

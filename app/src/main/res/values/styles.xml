@@ -1,0 +1,39 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!-- toolbar（actionbar）颜色 -->
+        <item name="windowActionBar">false</item>
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!-- 控件颜色 -->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--自定义AlertDialog-->
+        <item name="alertDialogTheme">@style/AppDialogTheme</item>
+        <!--&lt;!&ndash; menu 颜色&ndash;&gt;
+        <item name="actionMenuTextColor">@color/black</item>
+        &lt;!&ndash; menu 样式&ndash;&gt;
+        <item name="android:actionMenuTextAppearance">@style/MenuTextStyle</item>-->
+
+        <!--&lt;!&ndash; 窗口的背景颜色 &ndash;&gt;
+        <item name="android:windowBackground">@color/window_background</item>
+        &lt;!&ndash; SearchView &ndash;&gt;
+        <item name="searchViewStyle">@style/MySearchViewStyle</item>
+        &lt;!&ndash; 修改ToolBar最右边隐藏菜单图标 &ndash;&gt;
+        <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
+        &lt;!&ndash;返回键样式&ndash;&gt;
+        <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
+        <item name="android:displayOptions">showTitle</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_return</item>-->
+    </style>
+
+    <style name="AppDialogTheme" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
+        <!--修改AlertDialog按钮的颜色-->
+        <item name="colorAccent">@color/xixi_blue</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

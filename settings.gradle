@@ -1,0 +1,1 @@
+include ':app', ':shiningstarbase', ':conn_sdk', ':basic_sdk'

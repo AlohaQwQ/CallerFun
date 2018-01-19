@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.xixi.finance.callerfun">
+
+    <!-- 挂断手机的权限 -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <!-- 读取手机状态的权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 系统级弹窗权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 解锁的权限 -->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <!-- 亮屏的权限 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- 网络操作的权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 读取网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateUnspecified|adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.OverLayActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <!-- 注册监听手机状态 -->
+        <receiver android:name=".service.PhoneStateReceiver" >
+            <intent-filter android:priority="1000" >
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".service.ScreenService"
+            android:label="@string/app_name" >
+        </service>
+
+    </application>
+
+</manifest>

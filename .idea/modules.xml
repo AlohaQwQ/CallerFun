@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CallerFun.iml" filepath="$PROJECT_DIR$/CallerFun.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/basic_sdk/basic_sdk.iml" filepath="$PROJECT_DIR$/basic_sdk/basic_sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/conn_sdk/conn_sdk.iml" filepath="$PROJECT_DIR$/conn_sdk/conn_sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shiningstarbase/shiningstarbase.iml" filepath="$PROJECT_DIR$/shiningstarbase/shiningstarbase.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <include
+            layout="@layout/toolbar"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_line_color" />
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize" >
+        <com.lbdfun.android.app.widget.LeRecyclerView
+            android:id="@+id/recycle_bank_card_manage"
+            android:layout_above="@+id/btn_add_card_bank_card_manage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/btn_add_card_bank_card_manage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:background="@color/white"
+            android:padding="16dp">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/ic_launcher"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:textSize="@dimen/normal_size"
+                android:text="添加银行卡"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <include
+        android:id="@+id/lay_empty_list"
+        android:visibility="gone"
+        layout="@layout/status_view_empty" />
+
+    <include
+        android:id="@+id/swipe_refresh_status_layout"
+        layout="@layout/loading_tantantan"/>
+
+</android.support.design.widget.CoordinatorLayout>
