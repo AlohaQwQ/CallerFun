@@ -9,7 +9,8 @@ import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.widget.LinearLayout;
 
-import com.aloha.starworld.logger.LogUtil;
+import aloha.shiningstarbase.logger.LogUtil;
+
 
 /**
  * Created by AlohaQoQ on 2016/11/7.

@@ -21,7 +21,6 @@
         android:layout_height="40dp"
         android:padding="8dp"
         android:layout_gravity="center_horizontal|right"
-        android:layout_marginRight="12dp"
-        android:src="@mipmap/ic_user_personal"/>
+        android:layout_marginRight="12dp" />
 
 </android.support.v7.widget.Toolbar>

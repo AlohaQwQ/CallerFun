@@ -28,7 +28,7 @@ public abstract class BaseActivity<V extends IBaseView,P extends BasePresenter<V
         super.onCreate(savedInstanceState);
         setContentView(this.getLayoutID());
         unbinder = ButterKnife.bind(this);
-        MyApplication.getApplicationInstance().pushOneActivity(this);
+        MyApplication.getInstance().pushOneActivity(this);
         LogUtil.biu(getLocalClassName());
         mPresenter = CreatePresenter();
         if (mPresenter != null)

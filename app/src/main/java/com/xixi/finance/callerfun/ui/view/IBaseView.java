@@ -30,7 +30,7 @@ public interface IBaseView {
      * @Date 2016/9/26 14:50
      * @explain 弹出Toast.short
      */
-    void showToastShort(String msg);
+    void showToast(String msg);
 
     /**
      * Created by Aloha <br>
@@ -44,28 +44,28 @@ public interface IBaseView {
      * @Date 2016/9/28 11:04
      * @explain 显示Dialog View
      */
-    void showDialogView();
+    //void showDialogView();
 
     /**
      * Created by Aloha <br>
      * @Date 2016/9/28 11:04
      * @explain 隐藏Dialog View
      */
-    void hideDialogView();
+    //void hideDialogView();
 
     /**
      * Created by Aloha <br>
      * @Date 2016/9/26 14:53
      * @explain 显示加载view
      */
-    void showLoadingView();
+    //void showLoadingView();
 
     /**
      * Created by Aloha <br>
      * @Date 2016/9/26 14:53
      * @explain 隐藏加载view
      */
-    void hideLoadingView();
+    //void hideLoadingView();
 
     /**
      * Created by Aloha <br>

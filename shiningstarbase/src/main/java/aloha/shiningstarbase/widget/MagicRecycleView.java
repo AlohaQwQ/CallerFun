@@ -10,7 +10,6 @@ import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aloha.starworld.ui.activity.testactivity.ScrollZoomLayoutManager;
 
 /**
  * Created by AlohaQoQ on 2016/12/28.
@@ -39,7 +38,7 @@ public class MagicRecycleView extends RecyclerView {
         circleZoomLayoutManager = new CircleZoomLayoutManager(this,true); //中心圆环滑动
         scrollZoomLayoutManager = new ScrollZoomLayoutManager(this,Dp2px(10)); //横向滑动中心放大
         galleryLayoutManager = new GalleryLayoutManager(this,Dp2px(10));*/ //横向镜面滑动两侧模糊
-        this.setLayoutManager(new ScrollZoomLayoutManager(mContext,Dp2px(20)));
+       // this.setLayoutManager(new ScrollZoomLayoutManager(mContext,Dp2px(20)));
     }
 
     private int Dp2px(float dp) {

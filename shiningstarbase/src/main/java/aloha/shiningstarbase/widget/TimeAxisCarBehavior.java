@@ -5,8 +5,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.aloha.starworld.R;
-
 
 /**
  * Created by AlohaQoQ on 2016/12/28.
@@ -32,7 +30,8 @@ public class TimeAxisCarBehavior extends CoordinatorLayout.Behavior{
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
-        return dependency.getId() == R.id.img_time_gesture_car;
+        return false;
+        // return dependency.getId() == R.id.img_time_gesture_car;
     }
     /**
      * Created by Aloha <br>

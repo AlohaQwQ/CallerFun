@@ -11,9 +11,6 @@ import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.aloha.starworld.R;
-import com.aloha.starworld.base.MyApplication;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,14 +19,16 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import aloha.shiningstarbase.R;
+
 /**
  * Created by roly on 16/6/27.
  * 定义一个异步任务用于下载新版APK
  */
 public class DownloadApkTask extends AsyncTask<String, Integer, File> {
     /*文件存放位置  */
-    private String filePath = MyApplication.DOWNLOAD_PATH;
-
+    //private String filePath = MyApplication.DOWNLOAD_PATH;
+    private String filePath;
     private NotificationManager manager;
     private NotificationCompat.Builder builder;
     public static Context mContext;
@@ -66,7 +65,8 @@ public class DownloadApkTask extends AsyncTask<String, Integer, File> {
     protected File doInBackground(String... params) {
         String path = params[0];
 		/*创建项目文件夹*/
-        File dirFile = new File(MyApplication.DOWNLOAD_PATH);
+       // File dirFile = new File(MyApplication.DOWNLOAD_PATH);
+        File dirFile = null;
         if(!dirFile.exists()){
             dirFile.mkdir();
         }

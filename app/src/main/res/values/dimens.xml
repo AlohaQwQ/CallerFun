@@ -16,4 +16,8 @@
     <dimen name="number_large_small">32sp</dimen>
     <dimen name="number_large_big">36sp</dimen>
     <dimen name="text_large_big">40sp</dimen>
+    <dimen name="slidingmenu_width">304dp</dimen>
+
+    <dimen name="divider_line_height">0.5dp</dimen>
+    <dimen name="divider_line_padding">16dp</dimen>
 </resources>

@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,10 +20,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xixi.finance.callerfun.R;
-import com.xixi.finance.callerfun.service.ScreenService;
 import com.xixi.finance.callerfun.adapter.CityAdapter;
 import com.xixi.finance.callerfun.entities.City;
-import com.xixi.finance.callerfun.task.GetInfoTask;
+import com.xixi.finance.callerfun.service.ScreenService;
 import com.xixi.finance.callerfun.util.Utils;
 import com.xixi.finance.callerfun.widget.Title;
 
@@ -113,7 +111,7 @@ public class OverLayActivity extends Activity {
     /**
      * 获取信息异步线程
      */
-    private GetInfoTask getInfoTask = null;
+    //private GetInfoTask getInfoTask = null;
 
     /**
      * 电话挂断广播接收器
@@ -269,7 +267,7 @@ public class OverLayActivity extends Activity {
      */
     @SuppressLint("NewApi")
     private void startSearch() {
-        if (getInfoTask != null && getInfoTask.isRunning()) {
+       /* if (getInfoTask != null && getInfoTask.isRunning()) {
             getInfoTask.cancel();
             getInfoTask = null;
         }
@@ -294,7 +292,7 @@ public class OverLayActivity extends Activity {
             getInfoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
             getInfoTask.execute();
-        }
+        }*/
     }
 
     @Override

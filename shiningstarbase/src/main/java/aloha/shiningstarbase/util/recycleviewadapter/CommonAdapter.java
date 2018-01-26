@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aloha.starworld.logger.Log;
-
 import java.util.List;
+
+import aloha.shiningstarbase.logger.Log;
 
 /**
  * Created by zhy on 16/4/9.

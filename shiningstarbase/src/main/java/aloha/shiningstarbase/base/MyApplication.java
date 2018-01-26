@@ -3,190 +3,127 @@ package aloha.shiningstarbase.base;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.Environment;
-import android.util.Log;
-import android.view.WindowManager;
 
-import java.io.File;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
 import java.util.Stack;
 
-import aloha.shiningstarbase.database.MyDatabaseHelper;
 import aloha.shiningstarbase.logger.LogUtil;
 
 /**
- * @author  Aloha
- * @version 2015-11-10 下午6:44:57
- * @explain	自定义Application  必须定义在项目包下
- *		  	版本更新——
- *			获取manifest配置文件中的versionCode和versionName，我们一般用versionCode来实现版本更新。
- *			实现原理很简单：服务器端有个serverVersion，我们本地有个localVersion.服务器端serverVersion>localVersion,这个时候我们就需要进行升级版本
+ * Created by Aloha <br>
+ * -explain
+ * @Date 2018/1/18 16:43
  */
 public class MyApplication extends Application {
 
-    /*单例Application*/
-    private volatile static MyApplication myApplication;
-    //public static final String SERVER_URL = "http://aloha-qoq.imwork.net:8088"; //通信接口地址
-    //public static final String SERVER_URL = "http://192.168.43.31:8088/TestServer/api.jsp";	//安卓模拟器下访问本机服务器,需使用IP访问。老子的IP每次都不一样啊艹............
-    public static String SERVER_URL = "http://www.xiedajia.com/kaodeguo/";	//http://www.xiedajia.com/kaodeguo/	http://192.168.1.137:8080/kaodeguo/
-    public static String USER_ID;
-    public static String EMAIL;			/*"/data"+ Environment.getDataDirectory().getAbsolutePath() + "/" + "com.mingzhi.testsystemapp" +"/user_download/"*/
-    public final static String DOWNLOAD_PATH = Environment.getExternalStorageDirectory() +"/kaodeguo/" ;  //项目文件夹
+    private static MyApplication myApplication;
+    private boolean isDebug = true;
 
-    public static String SHARED_MY = "SHARED_MY"; //SharedPreferences的文件名称
-    private static SharedPreferences sharedPreferences;
-    private static SharedPreferences.Editor editor;
+    private static final boolean IS_OPEN_NETWORK_DETECTION = false;
 
-    public static int LOCAL_VERSION; 	// 本地安装版本
-    public static int SERVER_VERSION; // 服务器版本
+    private boolean isUpdateDownloading = false;
 
-    /*获取屏幕大小*/
-    public static int WINDOW_WIDTH ;
-    public static int WINDOW_HEIGHT;
-    /*用户手机IP*/
-    public static String PHONE_IP;
-    /*本地缓存数据库*/
-    private SQLiteDatabase db;
-    private MyDatabaseHelper databaseHelper;
-    /*Activity 管理栈*/
-    private Stack<Activity> activityStack;
+    /**
+     * Activity 管理栈
+     */
+    private Stack<BaseActivity> activityStack;
+
+    public static MyApplication getInstance() {
+        return myApplication;
+    }
+
+    public static MyApplication getInstance(Context context) {
+        return (MyApplication) context.getApplicationContext();
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i("QAQ", "MyApplication启动。");
-        /*获取屏幕大小*/
-        WindowManager wm = (WindowManager) getBaseContext().getSystemService(Context.WINDOW_SERVICE);
-        WINDOW_WIDTH = wm.getDefaultDisplay().getWidth();
-        WINDOW_HEIGHT = wm.getDefaultDisplay().getHeight();
-        initMyConfig();
-		/*创建项目文件夹*/
-        File dirFile = new File(DOWNLOAD_PATH);
-        if(!dirFile.exists()){
-            dirFile.mkdir();
-        }
-        /*创建本地缓存数据库*/
-        databaseHelper = new MyDatabaseHelper(getApplicationContext(), "my.db", null, 1);
-        databaseHelper.getWritableDatabase();
-    }
 
-    /**
-     * Created by Aloha <br>
-     * -explain 单例Application
-     * @Date 2016/10/10 9:56
-     */
-    public static MyApplication getApplicationInstance(){
-        if (myApplication == null) {
-             synchronized (MyApplication.class) {
-                 if (myApplication == null)
-                     myApplication = new MyApplication();
-             }
-        }
-        return myApplication;
-    }
-
-
-    /**
-     * 配置初始化
-     */
-    private void initMyConfig(){
-        /**
-         * 获取当前程序的版本号
-         */
-        /*获取packagemanager的实例 */
-        PackageManager packageManager = getApplicationContext().getPackageManager();
-        PackageInfo packInfo;
-        try {
-			/*getPackageName()是你当前类的包名，0代表是获取版本信息    */
-            packInfo = packageManager.getPackageInfo(getPackageName(), 0);
-            LOCAL_VERSION = packInfo.versionCode;
-            Log.i("QAQ", "本地版本号："+LOCAL_VERSION);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        createSharedPreferences();
-        getLocalIpAddress();
-    }
-
-    /**
-     * 生成用户配置SharedPreferences文件
-     */
-    private void createSharedPreferences(){
-        sharedPreferences = getSharedPreferences(SHARED_MY, MODE_PRIVATE);
-    	/*用于保存用户调整字体大小，用户第一次进来时加载该配置文件。*/
-        editor = sharedPreferences.edit();
-        editor.putString("test", "0");
-        editor.commit();
-    }
-
-    /**
-     * @explain 保存用户配置SharedPreferences文件
-     * @param value
-     */
-    public void setSharedPreferencesTextView(String value){
-        editor.putString("test", value);
-        editor.commit();
-        Log.i("QAQ", "Shared--TextSize-"+value);
-    }
-
-    /**
-     * 取出用户配置SharedPreferences文件数据
-     */
-    public String getSharedPreferencesTextView(){
-        return sharedPreferences.getString("test", "0");
-    }
-
-    /**
-     * @explain 获取手机GPRS IP
-     */
-    public void getLocalIpAddress() {
-        try {
-            for (Enumeration<NetworkInterface> en = NetworkInterface
-                    .getNetworkInterfaces(); en.hasMoreElements();) {
-                NetworkInterface intf = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = intf
-                        .getInetAddresses(); enumIpAddr.hasMoreElements();) {
-                    InetAddress inetAddress = enumIpAddr.nextElement();
-                    if (!inetAddress.isLoopbackAddress()) {
-                        PHONE_IP =  inetAddress.getHostAddress().toString();
-                        Log.i("QAQ", "PHONE_IP---"+PHONE_IP);
-                    }
-                }
+        /*if(isDebug){
+            if (LeakCanary.isInAnalyzerProcess(this)) {
+                // This process is dedicated to LeakCanary for heap analysis.
+                // You should not init your app in this process.
+                return;
             }
-            getWifiIpAddress();
-        } catch (SocketException ex) {
-            ex.printStackTrace();
-        }
-    }
+           // LeakCanary.install(this);
+        }*/
 
-    /**
-     * @explain 获取手机WIFI IP
-     */
-    public void getWifiIpAddress() {
-        // 获取wifi服务
-        WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        // 判断wifi是否开启
-        if (wifiManager.isWifiEnabled()) {
-            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-            int ipAddress = wifiInfo.getIpAddress();
-            String ip = intToIp(ipAddress);
-            PHONE_IP = ip;
-            Log.i("QAQ", "----PHONE_WIFI_IP---"+PHONE_IP);
-        }
-    }
+        // 初始化OkHttpClientManager
+        //OkHttpClientConfiguration configuration = OkHttpClientConfiguration.createDefault(this);
+        //OkHttpClientManager.getInstance().init(configuration);
 
-    private String intToIp(int i) {
-        return (i & 0xFF) + "." + ((i >> 8) & 0xFF) + "." + ((i >> 16) & 0xFF)
-                + "." + (i >> 24 & 0xFF);
+        //数据库初始化
+        //StatisticsDatabaseHelper.init(this);
+
+        // 初始化ImageLoader
+        //ImageLoaderManager imageLoader = new ImageLoaderManager();
+        //imageLoader.init(this);
+
+        // 初始化闪银
+        //WecashManager.init(this);
+
+        /*//初始化友盟分享
+        UMShareAPI.get(this);
+        //Config.DEBUG = true;
+        //禁用友盟默认页面统计
+        MobclickAgent.openActivityDurationTrack(false);
+        //初始化友盟推送
+        mPushAgent = PushAgent.getInstance(this);
+        //注册推送服务，每次调用register方法都会回调该接口
+        mPushAgent.register(new IUmengRegisterCallback() {
+            @Override
+            public void onSuccess(String deviceToken) {
+                LogUtil.biu("友盟推送注册成功-deviceToken:"+deviceToken);
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+                LogUtil.biu("友盟推送注册失败:"+s+"--"+s1);
+            }
+        });
+        UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler() {
+            //友盟推送自定义行为
+            @Override
+            public void dealWithCustomAction(Context context, UMessage msg) {
+                //Toast.makeText(context, msg.custom, Toast.LENGTH_LONG).show();
+            }
+        };
+        mPushAgent.setNotificationClickHandler(notificationClickHandler);
+
+        //调试模式下开启异常捕获模式
+        if (CommonConstant.IS_DEBUG_MODE) {
+            LogUtil.biu("开启异常捕获");
+            CrashHandler crashHandler = CrashHandler.getInstance();
+            crashHandler.init(this);
+        }
+
+        if (IS_OPEN_NETWORK_DETECTION) {
+            Intent service = new Intent();
+            service.setClass(this, NetworkDetectionService.class);
+            startService(service);
+        } else {
+            NetworkTrafficDetector.getInstance().detect();
+        }
+
+
+        //微信 appid appsecret
+        PlatformConfig.setWeixin("wx70c840a3ba23be2e", "7e6fa955fad7d6e9db1f77742b4b7d4f");
+        //新浪微博 appkey appsecret
+        PlatformConfig.setSinaWeibo("732879687","d9065b070eff26cc7a73374d0525c38d","http://sns.whalecloud.com");
+        //QQ appkey appsecret
+        PlatformConfig.setQQZone("1105364491", "FJ1I1byZmggbP3H4");
+        setUmengPushAlias();
+
+        *//**
+         * 设置环境变量
+         *//*
+        if (PersistentDataCacheEntity.getInstance().getDebugOpen()) {
+            if (!TextUtils.isEmpty(PersistentDataCacheEntity.getInstance().getServiceBaseAPI())){
+                ServiceAPIConstant.API_BASE_URL = PersistentDataCacheEntity.getInstance().getServiceBaseAPI();
+                ServiceAPIConstant.API_BASE_URL_NEW = PersistentDataCacheEntity.getInstance().getServiceBaseAPINewRequest();
+            }
+        }*/
+        myApplication = this;
     }
 
     /**
@@ -194,12 +131,12 @@ public class MyApplication extends Application {
      * @Date 2016/9/30 14:10
      * @explain Activity push to Stack
      **/
-    public void pushOneActivity(Activity actvity) {
+    public void pushOneActivity(BaseActivity actvity) {
         if (activityStack == null) {
-            activityStack = new Stack<Activity>();
+            activityStack = new Stack<BaseActivity>();
         }
         activityStack.push(actvity);
-        LogUtil.biu("MyActivityManager size = " + activityStack.size());
+        LogUtil.biu("activityStack size = " + activityStack.size());
     }
 
     /**
@@ -207,19 +144,62 @@ public class MyApplication extends Application {
      * -explain 获取栈顶的activity，先进后出原则
      * @Date 2016/10/10 9:41
      */
-    public Activity getLastActivity() {
+    public BaseActivity getLastActivity() {
         return activityStack.lastElement();
     }
 
-   /**
-    * Created by Aloha <br>
-    * -explain 移除一个activity
-    * @Date 2016/10/10 9:41
-    */
+    /**
+     * Created by Aloha <br>
+     * -explain 获取管理栈activity个数
+     * @Date 2016/10/10 9:41
+     */
+    public int getActivityStackSize() {
+        if(activityStack!=null){
+            LogUtil.biu("activityStack size = " + activityStack.size());
+            return activityStack.size();
+        }
+        return 0;
+    }
+
+    /**
+     * Created by Aloha <br>
+     * -explain 移除一个activity
+     * @Date 2016/10/10 9:41
+     */
+    public void popMultipleActivity(int number) {
+        if (activityStack != null) {
+            LogUtil.biu("activityStack size = " + activityStack.size());
+            for (int i = number; i > 0; i--) {
+                if(activityStack.size() > i){
+                    Activity activity = getLastActivity();
+                    if (activity == null)
+                        break;
+                    popOneActivity(activity);
+                }
+            }
+        }
+    }
+
+    /**
+     * Created by Aloha <br>
+     * -explain 移除当前activity
+     * @Date 2017/10/10 9:41
+     */
+    public void popActivity() {
+        LogUtil.biu("activity = " + this.getClass().getSimpleName());
+        activityStack.remove(this);
+    }
+
+    /**
+     * Created by Aloha <br>
+     * -explain 移除一个activity
+     * @Date 2016/10/10 9:41
+     */
     public void popOneActivity(Activity activity) {
         if (activityStack != null && activityStack.size() > 0) {
             if (activity != null) {
                 activity.finish();
+                LogUtil.biu("activity = " + activity.getLocalClassName());
                 activityStack.remove(activity);
                 activity = null;
             }
@@ -233,6 +213,7 @@ public class MyApplication extends Application {
      */
     public void finishAllActivity() {
         if (activityStack != null) {
+            LogUtil.biu("activityStack size = " + activityStack.size());
             while (activityStack.size() > 0) {
                 Activity activity = getLastActivity();
                 if (activity == null)

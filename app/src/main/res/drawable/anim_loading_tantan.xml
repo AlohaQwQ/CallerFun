@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animation-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_1">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_2">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_3">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_4">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_5">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_6">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_7">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_8">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_9">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_10">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_11">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_12">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_13">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_14">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_15">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_16">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_17">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_18">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_19">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_20">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_21">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_22">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_23">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_24">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_25">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_26">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_27">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_28">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_29">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_30">
+        </clip>
+    </item>
+    <!--<item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_31">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_32">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_33">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_34">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_35">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_36">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_37">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_38">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_39">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_40">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_41">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_42">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_43">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_44">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_45">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_46">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_47">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_48">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_49">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_50">
+        </clip>
+    </item>-->
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_51">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_52">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_53">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_54">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_55">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_56">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_57">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_58">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_59">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_60">
+        </clip>
+    </item>
+    <item android:duration="30">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@mipmap/animation_loading_tantan_61">
+        </clip>
+    </item>
+
+</animation-list>

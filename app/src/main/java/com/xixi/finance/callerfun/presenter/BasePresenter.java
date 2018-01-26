@@ -2,13 +2,16 @@ package com.xixi.finance.callerfun.presenter;
 
 import android.app.Dialog;
 import android.text.TextUtils;
+
 import com.alibaba.fastjson.JSONObject;
 import com.xixi.finance.callerfun.MyApplication;
+import com.xixi.finance.callerfun.R;
 import com.xixi.finance.callerfun.ui.view.IBaseView;
 import com.xixi.finance.callerfun.version.PersistentDataCacheEntity;
+
 import java.lang.ref.WeakReference;
 import java.util.Map;
-import aloha.shiningstarbase.R;
+
 import aloha.shiningstarbase.constant.APIKey;
 import aloha.shiningstarbase.constant.CommonConstant;
 import aloha.shiningstarbase.constant.ServiceAPIConstant;
@@ -168,27 +171,27 @@ public abstract class BasePresenter<V extends IBaseView> implements IBasePresent
                         if (status.equals(RESPONSE_STATUS_SUCCESS)) {
                             if (!TextUtils.isEmpty(message)) {
                                 if (getAttachView() != null)
-                                    getAttachView().showToastShort(message);
+                                    getAttachView().showToast(message);
                             }
                             if (null != dialog)
                                 dialog.dismiss();
                         } else {
                             if (!TextUtils.isEmpty(message)) {
                                 if (getAttachView() != null)
-                                    getAttachView().showToastShort(message);
+                                    getAttachView().showToast(message);
                             }
                             if (null != dialog)
                                 dialog.dismiss();
                         }
                     } catch (Exception e) {
                         if (getAttachView() != null) {
-                            getAttachView().showToastShort("无数据");
+                            getAttachView().showToast("无数据");
                             LogUtil.biu("BasePresenter-Exception-"+e);
                         }
                         e.printStackTrace();
                     }
                 } else {
-                    getAttachView().showToastShort(MyApplication.getInstance().getResources().getString(R.string.error_request));
+                    getAttachView().showToast(MyApplication.getInstance().getResources().getString(R.string.network_error));
                 }
             }
 
@@ -196,7 +199,7 @@ public abstract class BasePresenter<V extends IBaseView> implements IBasePresent
             public void onFailure(String error) {
                 if (getAttachView() != null) {
                     getAttachView().hideProgressView();
-                    getAttachView().showToastShort(MyApplication.getInstance().getResources().getString(R.string.error_network));
+                    getAttachView().showToast(MyApplication.getInstance().getResources().getString(R.string.network_error));
                 }
             }
         });
@@ -230,14 +233,14 @@ public abstract class BasePresenter<V extends IBaseView> implements IBasePresent
                     if (status.equals(RESPONSE_STATUS_SUCCESS)) {
                         if (!TextUtils.isEmpty(message)) {
                             if (getAttachView() != null)
-                                getAttachView().showToastShort(message);
+                                getAttachView().showToast(message);
                         }
                         if (null != dialog)
                             dialog.dismiss();
                     } else {
                         if (!TextUtils.isEmpty(message)) {
                             if (getAttachView() != null)
-                                getAttachView().showToastShort(message);
+                                getAttachView().showToast(message);
                         }
                         if (null != dialog)
                             dialog.dismiss();
@@ -271,7 +274,7 @@ public abstract class BasePresenter<V extends IBaseView> implements IBasePresent
                     }*/
                     if (getAttachView() != null) {
                         getAttachView().hideProgressView();
-                        getAttachView().showToastShort(MyApplication.getInstance().getResources().getString(R.string.error_network));
+                        getAttachView().showToast(MyApplication.getInstance().getResources().getString(R.string.network_error));
                     }
                 }
             }

@@ -1,16 +1,12 @@
 
 package com.xixi.finance.callerfun.widget.overlay;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
-import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -19,18 +15,12 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xixi.finance.callerfun.R;
-import com.xixi.finance.callerfun.adapter.CityAdapter;
-import com.xixi.finance.callerfun.entities.City;
-import com.xixi.finance.callerfun.task.GetInfoTask;
 import com.xixi.finance.callerfun.util.LogUtil;
 import com.xixi.finance.callerfun.util.Utils;
 import com.xixi.finance.callerfun.widget.Title;
-
-import java.util.ArrayList;
 
 /**
  * 半屏显示
@@ -77,16 +67,6 @@ public class OverlayView extends Overlay {
     private static LinearLayout mRetLayout = null;
 
     /**
-     * 城市结果列表
-     */
-    private static ListView mCityList = null;
-
-    /**
-     * 城市适配器
-     */
-    private static CityAdapter mCityAdapter = null;
-
-    /**
      * 挂电话按钮
      */
     private static Button mEndCallBt = null;
@@ -95,39 +75,6 @@ public class OverlayView extends Overlay {
      * 接听电话按钮
      */
     private static Button mAnswerCallBt = null;
-
-    /**
-     * 异步查询任务
-     */
-    private static GetInfoTask getInfoTask = null;
-
-    @SuppressLint("HandlerLeak")
-    private static Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            // super.handleMessage(msg);
-            switch (msg.what) {
-                case MSG_OK:
-                    String json = msg.getData().getString("data");
-                    ArrayList<City> data = new ArrayList<City>();
-                    if (Utils.parseData(data, json)) {
-                        mCityAdapter = new CityAdapter(mContext, data);
-                        mCityList.setAdapter(mCityAdapter);
-                        mCityAdapter.notifyDataSetChanged();
-                    }
-
-                    mLoadingLayout.setVisibility(View.GONE);
-                    mRetLayout.setVisibility(View.VISIBLE);
-                    break;
-                case MSG_FAILED:
-                    mLoadingTv.setText(msg.obj + "");
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 
     /**
      * 显示
@@ -146,43 +93,6 @@ public class OverlayView extends Overlay {
                     InputMethodManager.HIDE_IMPLICIT_ONLY);
             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
-            // 启动查询
-            startSearch();
-        }
-    }
-
-    /**
-     * 启动查询
-     */
-    @SuppressLint("NewApi")
-    private static void startSearch() {
-        synchronized (monitor) {
-            if (getInfoTask != null && getInfoTask.isRunning()) {
-                getInfoTask.cancel();
-                getInfoTask = null;
-            }
-            // TODO Auto-generated method stub
-            getInfoTask = new GetInfoTask(mContext, new GetInfoTask.IOnResultListener() {
-                @Override
-                public void onResult(boolean success, String error, String result) {
-                    // TODO Auto-generated method stub
-                    Message msg = handler.obtainMessage();
-                    if (success) {
-                        msg.what = MSG_OK;
-                        msg.getData().putString("data", result);
-                    } else {
-                        msg.what = MSG_FAILED;
-                        msg.obj = error;
-                    }
-                    handler.sendMessage(msg);
-                }
-            });
-
-            if (Utils.hasHoneycomb()) {
-                getInfoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            } else {
-                getInfoTask.execute();
-            }
         }
     }
 
@@ -243,7 +153,6 @@ public class OverlayView extends Overlay {
         mLoadingLayout = (LinearLayout)v.findViewById(R.id.overlay_loading_layout);
         mLoadingTv = (TextView)v.findViewById(R.id.overlay_loading_tv);
         mRetLayout = (LinearLayout)v.findViewById(R.id.overlay_result_layout);
-        mCityList = (ListView)v.findViewById(R.id.overlay_result_list);
 
         // 显示正在加载数据。
         mLoadingLayout.setVisibility(View.VISIBLE);

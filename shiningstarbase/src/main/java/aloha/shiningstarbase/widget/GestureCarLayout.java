@@ -12,7 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.aloha.starworld.logger.LogUtil;
+import aloha.shiningstarbase.logger.LogUtil;
 
 
 /**

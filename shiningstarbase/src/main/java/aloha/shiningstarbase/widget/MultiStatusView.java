@@ -13,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import com.aloha.starworld.R;
 
 /**
  * Created by Aloha <br>
@@ -149,7 +148,7 @@ public class MultiStatusView {
         // 设置mProgressDialog风格
         mProgressBar.setProgress(ProgressDialog.STYLE_SPINNER);//圆形
         mProgressBar.setProgress(ProgressDialog.STYLE_HORIZONTAL);//水平*/
-        mProgressBar.setBackgroundResource(R.drawable.progressbar_circle_1);
+        //mProgressBar.setBackgroundResource(R.drawable.progressbar_circle_1);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.CENTER;
 

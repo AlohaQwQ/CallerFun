@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.xixi.finance.callerfun.ui.activity.BaseActivity;
+
 import java.util.Stack;
 
-import aloha.shiningstarbase.base.BaseActivity;
 import aloha.shiningstarbase.logger.LogUtil;
 import cn.chutong.sdk.conn.OkHttpClientConfiguration;
 import cn.chutong.sdk.conn.OkHttpClientManager;

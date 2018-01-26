@@ -61,7 +61,12 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                                     }
                                 }, 100);
                                 break;
-                            case ShowPref.TYPE_HALF_DIALOG:// 非满屏Dialog
+                            /**
+                             * Created by Aloha <br>
+                             * -explain 非满屏Dialog
+                             * @Date 2018/1/25 20:25
+                             */
+                            case ShowPref.TYPE_HALF_DIALOG:
                             default:// 默认显示半屏dialog
                                 int value = pref.loadInt(ShowPref.TYPE_HALF_VALUE,
                                         ShowPref.TYPE_HALF_DIALOG_DEFAULT);

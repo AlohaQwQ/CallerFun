@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/app_name"
-        android:textColor="@color/gray" />
+        android:textColor="@color/xixi_gray" />
 
     <FrameLayout
         android:id="@+id/frame_EndRing"
@@ -44,7 +44,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="@string/loading_msg"
-                android:textColor="@color/gray" />
+                android:textColor="@color/xixi_gray" />
         </LinearLayout>
 
         <LinearLayout
@@ -67,8 +67,7 @@
         android:id="@+id/overlay_dealwith_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:minHeight="50dp"
-        android:visibility="invisible" >
+        android:minHeight="50dp">
 
         <Button
             android:id="@+id/overlay_end_ring_bt"

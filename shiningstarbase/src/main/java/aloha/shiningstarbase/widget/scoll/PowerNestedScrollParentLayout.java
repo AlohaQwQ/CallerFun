@@ -11,10 +11,10 @@ import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.OverScroller;
 
-import com.aloha.starworld.logger.LogUtil;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import aloha.shiningstarbase.logger.LogUtil;
 
 /**
  * Created by AlohaQoQ on 2016/11/7.

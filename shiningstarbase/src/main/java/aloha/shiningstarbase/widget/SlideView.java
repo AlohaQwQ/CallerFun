@@ -11,13 +11,14 @@ import android.view.VelocityTracker;
 import android.widget.ImageView;
 import android.widget.Scroller;
 
-import com.aloha.starworld.logger.LogUtil;
+import aloha.shiningstarbase.logger.LogUtil;
+
 
 /**
  * Created by AlohaQoQ on 2016/12/26.
  */
 
-public class SlideView extends ImageView {
+public class SlideView extends android.support.v7.widget.AppCompatImageView {
 
     private Paint paint;
     private VelocityTracker velocityTracker;

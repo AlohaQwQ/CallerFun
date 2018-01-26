@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">DuDuDu~</string>
     <string name="sure">确定</string>
     <string name="back">返回</string>
@@ -19,7 +18,9 @@
     <string name="show_type_full_dialog_msg">以全屏弹窗的形式显示来电秀</string>
     <string name="show_type_half_dialog_msg">自定义来电秀显示的高度(%)</string>
 
-    <string name="error_network">网络错误，请检查网络是否连接</string>
+    <string name="press_again_to_close_application">再按一次退出</string>
+    <string name="loading_pb_title">正在更新数据</string>
+    <string name="network_error">网络错误，请检查网络是否连接</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
     <string name="error_request">请求失败</string>

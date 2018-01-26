@@ -14,6 +14,52 @@ import java.util.Map;
 
 public class CommonJSONParser {
 
+    public Map<String, Object> parseMap(String jsonStr) {
+
+        Map<String, Object> result = null;
+
+        if (null != jsonStr) {
+            try {
+
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                result = parseJSONObject(jsonObject);
+
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } // if (null != jsonStr)
+
+        return result;
+    }
+
+    public List<Map<String, Object>> parseList(String str) {
+        List<Map<String, Object>> result = null;
+        if (!TextUtils.isEmpty(str)) {
+            try {
+                JSONArray jsonArray = new JSONArray(str);
+                if (null != jsonArray) {
+                    result = new ArrayList<>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        Map<String, Object> data = new HashMap<>();
+                        JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                        Iterator it = jsonObject.keys();
+                        while (it.hasNext()) {
+                            String key = String.valueOf(it.next());
+                            String value = (String) jsonObject.get(key);
+                            data.put(key, value);
+                        }
+                        result.add(data);
+                    }
+                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } // if (null != jsonStr)
+        return result;
+    }
+
     public Map<String, Object> parse(String jsonStr) {
         Map<String, Object> result = null;
         if (null != jsonStr) {

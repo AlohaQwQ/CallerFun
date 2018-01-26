@@ -10,7 +10,6 @@ import aloha.shiningstarbase.constant.CommonConstant;
 import aloha.shiningstarbase.constant.ServiceAPIConstant;
 import aloha.shiningstarbase.logger.LogUtil;
 import aloha.shiningstarbase.util.CommonJSONParser;
-import aloha.shiningstarbase.database.PersistentDataCacheEntity;
 import cn.chutong.sdk.common.util.TypeUtil;
 import cn.chutong.sdk.conn.OkHttpClientManager;
 import cn.chutong.sdk.conn.OkHttpRequest;

@@ -3,14 +3,14 @@ package aloha.shiningstarbase.util.recycleviewadapter.support;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
-import com.aloha.starworld.util.recycleviewadapter.MultiItemCommonAdapter;
-import com.aloha.starworld.util.recycleviewadapter.MultiItemTypeSupport;
-import com.aloha.starworld.util.recycleviewadapter.SuperRecycleViewHolder;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import aloha.shiningstarbase.util.recycleviewadapter.MultiItemCommonAdapter;
+import aloha.shiningstarbase.util.recycleviewadapter.MultiItemTypeSupport;
+import aloha.shiningstarbase.util.recycleviewadapter.SuperRecycleViewHolder;
 
 /**
  * 分类header Recycleview 适配器

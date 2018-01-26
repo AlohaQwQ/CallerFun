@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MultiStatusView">
+        <attr name="msv_loading_view" format="reference" />
+        <attr name="msv_error_view" format="reference" />
+        <attr name="msv_empty_view" format="reference" />
+        <attr name="msv_status">
+            <enum name="normal" value="0" />
+            <enum name="loading" value="1" />
+            <enum name="error" value="2" />
+            <enum name="empty" value="3" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CircleIndicator">
+        <attr name="ci_width" format="dimension" />
+        <attr name="ci_height" format="dimension" />
+        <attr name="ci_margin" format="dimension" />
+        <attr name="ci_animator" format="reference" />
+        <attr name="ci_animator_reverse" format="reference" />
+        <attr name="ci_drawable" format="reference" />
+        <attr name="ci_drawable_unselected" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ProgressRingView">
+        <attr name="prv_increase_progress_width" format="dimension" />
+        <attr name="prv_increase_progress_start_color" format="color" />
+        <attr name="prv_increase_progress_end_color" format="color" />
+        <attr name="prv_decrease_progress_width" format="dimension" />
+        <attr name="prv_decrease_progress_color" format="color" />
+        <attr name="prv_inner_circle_width" format="dimension" />
+        <attr name="prv_inner_circle_color" format="color" />
+        <attr name="prv_percent" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="LeRecyclerView">
+        <attr name="recycle_horizontal" format="boolean" />
+        <attr name="recycle_grid" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="ProgressRocketRingView">
+        <attr name="prv_back_color" format="color|reference" />
+        <attr name="prv_border_color" format="color|reference" />
+        <attr name="prv_text_color" format="color|reference" />
+        <attr name="prv_text_size" format="dimension|reference" />
+        <attr name="prv_inner_round_color" format="color|reference" />
+        <attr name="prv_inner_round_arc_visible" format="boolean" />
+        <attr name="prv_scale_text_color" format="color|reference" />
+        <attr name="prv_scale_text_size" format="dimension|reference" />
+        <attr name="prv_scale_text_visible" format="boolean" />
+
+        <attr name="prv_btn_visible" format="boolean" />
+        <attr name="prv_btn_color" format="color|reference" />
+        <attr name="prv_btn_text" format="string" />
+        <attr name="prv_btn_text_color" format="color|reference" />
+        <attr name="prv_btn_text_size" format="dimension|reference" />
+        <attr name="prv_round_radius" format="dimension|reference" />
+        <attr name="prv_btn_height" format="dimension|reference" />
+        <attr name="prv_range_text_color" format="color|reference" />
+        <attr name="prv_rocket_visible" format="boolean" />
+        <attr name="prv_rocket_type" format="integer|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="BorrowSeekBar">
+        <attr name="ruler_text_size" format ="integer|reference"/>
+        <attr name="ruler_text_color" format="color|reference" />
+        <attr name="limit_text_size" format ="integer|reference"/>
+        <attr name="limit_text_color" format="color|reference" />
+        <attr name="absoluteMinValue" format="integer|float"/>
+        <attr name="absoluteMaxValue" format="integer|float"/>
+        <attr name="singleThumb" format="boolean"/>
+        <attr name="openStage" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="NumberProgressBar">
+        <attr name="progressIndicator" format="reference" />
+        <attr name="textSize" format="dimension" />
+        <attr name="textColor" format="reference|color" />
+        <attr name="textStyle">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+        <attr name="textAlign">
+            <flag name="left" value="0" />
+            <flag name="center" value="1" />
+            <flag name="right" value="2" />
+        </attr>
+        <attr name="offset" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundProgressView">
+        <attr name="bgColor" format="color" />
+        <attr name="progressColor" format="color" />
+        <attr name="gapColor" format="color" />
+        <attr name="bgHeight" format="dimension" />
+        <attr name="gapWidth" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundImageView">
+        <attr name="radius" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="UserCenterItemView">
+        <attr name="item_icon" format="integer" />
+        <attr name="item_name" format="string" />
+        <attr name="item_name_text_color" format="color" />
+        <attr name="item_mark" format="string" />
+        <attr name="item_arrow" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="PriceTextView">
+        <attr name="separator" format="string" />
+        <attr name="group_length" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="ClipBorderView">
+        <attr name="clip_flag" format="boolean" />
+        <attr name="visible_proportion" format="float" />
+        <attr name="visible_padding_left" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="UserInfoItemView">
+        <attr name="item_not_null" format="boolean" />
+        <attr name="item_title" format="string" />
+        <attr name="item_title_size" format="dimension" />
+        <attr name="item_title_color" format="color" />
+        <attr name="item_title_bold" format="boolean" />
+        <attr name="item_content_size" format="dimension" />
+        <attr name="item_content_color" format="color" />
+        <attr name="item_content_bold" format="boolean" />
+        <attr name="item_content" format="string" />
+        <attr name="item_top_fill_divider_visible" format="boolean" />
+        <attr name="item_top_divider_visible" format="boolean" />
+        <attr name="item_bottom_fill_divider_visible" format="boolean" />
+        <attr name="item_bottom_divider_visible" format="boolean" />
+        <attr name="item_right_icon" format="integer" />
+        <attr name="item_content_gravity_right" format="boolean" />
+        <attr name="item_edit_content_gravity_right" format="boolean" />
+        <attr name="item_right_icon_visible" format="boolean" />
+        <attr name="item_edit_content_visible" format="boolean" />
+        <attr name="item_edit_content_hint" format="string" />
+        <attr name="item_edit_content_phoneNumber" format="boolean" />
+        <attr name="item_edit_bg_gray_color" format="boolean" />
+        <attr name="item_edit_can_editable" format="boolean" />
+        <attr name="item_img_title_icon" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ActionBar">
+        <attr name="title" format="string" localization="suggested" />
+    </declare-styleable>
+    <declare-styleable name="board_column">
+        <attr name="column" format="integer" localization="suggested" />
+    </declare-styleable>
+</resources>

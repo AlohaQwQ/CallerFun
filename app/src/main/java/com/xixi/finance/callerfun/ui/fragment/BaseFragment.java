@@ -102,7 +102,7 @@ public abstract class BaseFragment<V extends IBaseView,P extends BasePresenter<V
     public void showContentView() {}
 
     @Override
-    public void showToastShort(String msg) {
+    public void showToast(String msg) {
         Toast.makeText(getContextView(),msg,Toast.LENGTH_SHORT).show();
     }
 

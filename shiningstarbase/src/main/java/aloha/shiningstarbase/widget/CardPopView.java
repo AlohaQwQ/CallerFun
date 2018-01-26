@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.aloha.starworld.util.recycleviewadapter.MultiItemCommonAdapter;
+import aloha.shiningstarbase.util.recycleviewadapter.MultiItemCommonAdapter;
 
 
 /**
