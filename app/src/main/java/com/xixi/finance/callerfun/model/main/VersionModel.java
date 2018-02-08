@@ -1,6 +1,5 @@
 package com.xixi.finance.callerfun.model.main;
 
-import com.xixi.finance.callerfun.constant.APIKey;
 import com.xixi.finance.callerfun.constant.ServiceAPIConstant;
 
 import cn.chutong.sdk.conn.OkHttpRequest;
@@ -19,9 +18,8 @@ public class VersionModel implements IVersionModel {
     @Override
     public OkHttpRequest checkVersionUpdate() {
         OkHttpRequest request = new OkHttpRequest();
-        request.setAPIPath(ServiceAPIConstant.REQUEST_API_NAME_USER_REGISTER);
-        request.setRequestID(ServiceAPIConstant.REQUEST_API_NAME_USER_REGISTER);
-        request.addRequestFormParam(APIKey.BORROW_PRODUCTS_FIRST_LOGIN, "");
+        request.setRequestID(ServiceAPIConstant.REQUEST_API_CHECK);
+        request.setAPIPath(ServiceAPIConstant.REQUEST_API_CHECK);
         return request;
     }
 

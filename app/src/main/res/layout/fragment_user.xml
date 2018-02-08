@@ -34,15 +34,15 @@
                     android:id="@+id/tv_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="名字"
-                    android:textSize="@dimen/mid_size" />
+                    android:text="用户"
+                    android:textSize="@dimen/normal_size" />
 
                 <TextView
                     android:id="@+id/tv_user_depart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="销售二部"
+                    android:text="销售一部"
                     android:textColor="@color/xixi_text_gray" />
             </LinearLayout>
         </LinearLayout>
@@ -53,6 +53,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="horizontal"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:layout_marginTop="16dp"
             android:padding="16dp">
@@ -62,9 +64,18 @@
                 android:layout_weight="1"
                 android:text="录音清理" />
 
+            <TextView
+                android:id="@+id/tv_record_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/min_size"
+                android:textColor="@color/xixi_text_gray"
+                android:layout_marginRight="4dp"
+                android:text="0.0MB"/>
+
             <ImageView
-                android:layout_width="10dp"
-                android:layout_height="18dp"
+                android:layout_width="8dp"
+                android:layout_height="16dp"
                 android:src="@mipmap/ic_right_arrow" />
         </LinearLayout>
 
@@ -80,6 +91,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:padding="16dp">
@@ -90,8 +103,8 @@
                 android:text="意见反馈" />
 
             <ImageView
-                android:layout_width="10dp"
-                android:layout_height="18dp"
+                android:layout_width="8dp"
+                android:layout_height="16dp"
                 android:src="@mipmap/ic_right_arrow" />
         </LinearLayout>
 
@@ -107,6 +120,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:padding="16dp">
@@ -117,8 +132,8 @@
                 android:text="设置" />
 
             <ImageView
-                android:layout_width="10dp"
-                android:layout_height="18dp"
+                android:layout_width="8dp"
+                android:layout_height="16dp"
                 android:src="@mipmap/ic_right_arrow" />
         </LinearLayout>
 
@@ -127,6 +142,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_marginTop="24dp"
@@ -136,7 +153,7 @@
                 android:layout_height="wrap_content"
                 android:text="退出当前账号"
                 android:textColor="@color/xixi_text_orange"
-                android:textSize="@dimen/mid_size" />
+                android:textSize="@dimen/normal_size" />
         </LinearLayout>
     </LinearLayout>
 

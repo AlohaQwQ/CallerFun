@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.xixi.finance.callerfun"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
 
@@ -18,9 +18,27 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    signingConfigs {
+        configDebug {
+            keyAlias 'xixi'
+            keyPassword 'xixi2018'
+            storeFile file('D:/QwQ/CallerFun/doc/xixi.jks')
+            storePassword 'xixi2018'
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                // 输出apk名称如：lbdfun_v1.0.0_wandoujia.apk
+                def fileName = "xixicallerfun_${defaultConfig.versionName}.apk"
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
+    }
 }
 
-def appcompatSupportVersion = '26.+'
+def appcompatSupportVersion = '25.3.1'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -38,8 +56,14 @@ dependencies {
     compile 'com.alibaba:fastjson:1.2.40'
     compile 'com.google.code.gson:gson:2.6.2'
 
+    /**butterknife 注解框架*/
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
     /** 依赖Module      */
     compile project(':shiningstarbase')
     compile project(':conn_sdk')
     compile project(':basic_sdk')
+
+    compile 'com.yanzhenjie.nohttp:nohttp:1.1.8'
 }

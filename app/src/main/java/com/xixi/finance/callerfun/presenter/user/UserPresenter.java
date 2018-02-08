@@ -1,9 +1,9 @@
-package com.xixi.finance.callerfun.presenter.main;
+package com.xixi.finance.callerfun.presenter.user;
 
 import com.xixi.finance.callerfun.model.record.IRecordModel;
 import com.xixi.finance.callerfun.model.record.RecordModel;
 import com.xixi.finance.callerfun.presenter.BasePresenter;
-import com.xixi.finance.callerfun.ui.view.main.IRecordView;
+import com.xixi.finance.callerfun.ui.view.main.IUserView;
 
 import java.util.Map;
 
@@ -12,7 +12,7 @@ import cn.chutong.sdk.conn.OkHttpRequest;
 /**
  * Created by TanJiaJun on 2016/4/20.
  */
-public class UserPresenter extends BasePresenter<IRecordView> {
+public class UserPresenter extends BasePresenter<IUserView> {
 
     private IRecordModel recordModel;
 
@@ -21,8 +21,8 @@ public class UserPresenter extends BasePresenter<IRecordView> {
     }
 
     public void fetchConfigDetailRequest(String configCategoryCode) {
-        OkHttpRequest request = recordModel.fetchCallList();
-        addRequestAsyncTask(request);
+        OkHttpRequest request = recordModel.fetchRecords();
+        addRequestAsyncTaskForJson(request);
     }
 
     @Override
@@ -39,12 +39,12 @@ public class UserPresenter extends BasePresenter<IRecordView> {
                     PersistentDataCacheEntity.getInstance().setValue(value);
 
                     if (null != getView()) {
-                        RecordPresenter.this.getView().fetchConfigDetailSuccess(value);
+                        LoginPresenter.this.getView().fetchConfigDetailSuccess(value);
                     }
                 }
             } else {
                 if (null != getView()) {
-                    RecordPresenter.this.getView().fetchConfigDetailFailure();
+                    LoginPresenter.this.getView().fetchConfigDetailFailure();
                 }
             }
         }*/

@@ -1,19 +1,25 @@
 package com.xixi.finance.callerfun.ui.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xixi.finance.callerfun.R;
 import com.xixi.finance.callerfun.presenter.BasePresenter;
 import com.xixi.finance.callerfun.ui.view.IBaseView;
-
 import com.xixi.finance.callerfun.util.LogUtil;
-import aloha.shiningstarbase.widget.MultiStatusView;
+
+import com.xixi.finance.callerfun.widget.MultiStatusView;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -25,6 +31,16 @@ import butterknife.Unbinder;
  **/
 
 public abstract class BaseFragment<V extends IBaseView,P extends BasePresenter<V>> extends Fragment implements IBaseView{
+
+    @Nullable
+    @BindView(R.id.swipe_refresh_status_layout)
+    MultiStatusView mSwipeRefreshStatusLayout;
+    @Nullable
+    @BindView(R.id.layout_toolbar)
+    Toolbar toolbar;
+    @Nullable
+    @BindView(R.id.tv_title)
+    TextView titleTv;
 
     /**
      * The fragment argument representing the section number for this
@@ -38,15 +54,15 @@ public abstract class BaseFragment<V extends IBaseView,P extends BasePresenter<V
      * */
     private int mPage = 0;
 
-    protected P mPresenter;
     protected Context mContext;
+    protected P mPresenter;
     protected View mContentView;
     private Unbinder unbinder;
+    protected ProgressDialog baseProgressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Nullable
@@ -99,7 +115,15 @@ public abstract class BaseFragment<V extends IBaseView,P extends BasePresenter<V
     }
 
     @Override
-    public void showContentView() {}
+    public void showContentView() {
+        showStatusView(MultiStatusView.STATUS_NORMAL);
+    }
+
+    private void showStatusView(int status) {
+        if (null != mSwipeRefreshStatusLayout) {
+            mSwipeRefreshStatusLayout.switchStatusView(status);
+        }
+    }
 
     @Override
     public void showToast(String msg) {
@@ -112,22 +136,35 @@ public abstract class BaseFragment<V extends IBaseView,P extends BasePresenter<V
     }
 
     @Override
-    public void showDialogView() {
-        this.showDialogView(" "," ",true, null);
-    }
-
-    public void showDialogView(String title, String msg,boolean isCancle, MultiStatusView.OnDialogButtonClickListener mOnDialogButtonClickListener) {
-        MultiStatusView.showDialog(getContextView(),title,msg,isCancle, mOnDialogButtonClickListener);
-    }
-
-    @Override
-    public void showLoadingView() {
-        MultiStatusView.showLoadingView(getContextView());
+    public void showProgressView() {
+        if (null == baseProgressDialog)
+            baseProgressDialog = new ProgressDialog(getContextView());
+        if (null != baseProgressDialog && !baseProgressDialog.isShowing()) {
+            baseProgressDialog.setMessage("加载中");
+            baseProgressDialog.show();
+        }
     }
 
     @Override
-    public void hideLoadingView() {
-        MultiStatusView.hideLoadingView();
+    public void showProgressView(String msg) {
+        if (null == baseProgressDialog)
+            baseProgressDialog = new ProgressDialog(getContextView());
+
+        if (null != baseProgressDialog && !baseProgressDialog.isShowing()) {
+            if (!TextUtils.isEmpty(msg)) {
+                baseProgressDialog.setMessage(msg);
+            } else {
+                baseProgressDialog.setMessage("加载中");
+            }
+            baseProgressDialog.show();
+        }
+    }
+
+    @Override
+    public void hideProgressView() {
+        if (null != baseProgressDialog && baseProgressDialog.isShowing()) {
+            baseProgressDialog.dismiss();
+        }
     }
 
     @Override
@@ -135,28 +172,9 @@ public abstract class BaseFragment<V extends IBaseView,P extends BasePresenter<V
 
     }
 
-    @Override
-    public void showProgressView() {
-
-    }
-
-    @Override
-    public void showProgressView(String msg) {
-
-    }
-
-    @Override
-    public void hideDialogView() {
-
-    }
 
     @Override
     public void hideErrorView() {
-
-    }
-
-    @Override
-    public void hideProgressView() {
 
     }
 

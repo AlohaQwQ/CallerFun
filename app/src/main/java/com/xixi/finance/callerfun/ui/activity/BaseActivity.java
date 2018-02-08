@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,11 +17,11 @@ import com.xixi.finance.callerfun.R;
 import com.xixi.finance.callerfun.presenter.BasePresenter;
 import com.xixi.finance.callerfun.ui.fragment.BaseFragment;
 import com.xixi.finance.callerfun.ui.view.IBaseView;
+import com.xixi.finance.callerfun.util.LogUtil;
+import com.xixi.finance.callerfun.widget.MultiStatusView;
 
 import java.util.Stack;
 
-import aloha.shiningstarbase.logger.LogUtil;
-import com.xixi.finance.callerfun.widget.MultiStatusView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -60,7 +59,8 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
 
         MyApplication.getInstance().pushOneActivity(this);
 
-        LogUtil.biu(getLocalClassName());
+        LogUtil.biubiubiu(getLocalClassName());
+        LogUtil.biubiubiu("current process ID"+ android.os.Process.myPid());
 
         mPresenter = CreatePresenter();
         if (mPresenter != null)
@@ -72,9 +72,10 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         }*/
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             //透明导航栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
         if (toolbar != null) {
             toolbar.setBackgroundResource(R.color.xixi_blue);

@@ -145,7 +145,7 @@ public class PersistentDataCacheEntity {
     }
 
     public boolean isLogin() {
-        if (null == getUserId() || getUserId().equals("") || getToken() == null || getToken().equals("")) {
+        if (TextUtils.isEmpty(getToken())) {
             return false;
         } else {
             return true;
@@ -290,11 +290,15 @@ public class PersistentDataCacheEntity {
         editor.commit();
     }
 
+    public void setName(String name) {
+        editor.putString(APIKey.USER_NAME, name);
+        editor.commit();
+    }
+
     public String getName() {
         name = sharedPreferences.getString(APIKey.USER_NAME, "");
         return name;
     }
-
 
     public boolean isHaveTransactPassword() {
         isHaveTransactPassword = sharedPreferences.getBoolean("isHaveTransactPassword", false);
@@ -340,6 +344,33 @@ public class PersistentDataCacheEntity {
 
     public void setChannelApp(String channelApp) {
         this.channelApp = channelApp;
+    }
+
+    public void setCallState(int callState) {
+        editor.putInt(APIKey.CONFIG_CALL_STATE, callState);
+        editor.commit();
+    }
+
+    public int getCallState() {
+        return sharedPreferences.getInt(APIKey.CONFIG_CALL_STATE, 1);
+    }
+
+    public void setCallNumber(String number) {
+        editor.putString(APIKey.CONFIG_CALL_NUMBER, number);
+        editor.commit();
+    }
+
+    public String getCallNumber() {
+        return sharedPreferences.getString(APIKey.CONFIG_CALL_NUMBER, "");
+    }
+
+    public void setCallCustomerName(String name) {
+        editor.putString(APIKey.CONFIG_CALL_CUSTOMER_NAME, name);
+        editor.commit();
+    }
+
+    public String getCallCustomerName() {
+        return sharedPreferences.getString(APIKey.CONFIG_CALL_CUSTOMER_NAME, "");
     }
 
     public void setDeviceId(String deviceId) {

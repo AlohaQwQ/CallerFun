@@ -1,26 +1,21 @@
 package com.xixi.finance.callerfun.ui.view.main;
 
-import com.xixi.finance.callerfun.ui.view.IBaseView;
-import java.util.List;
-import java.util.Map;
+import com.xixi.finance.callerfun.ui.view.ISwipeRefreshView;
 
 /**
  * Created by Aloha on 2016/8/22.
  */
-public interface IRecordView extends IBaseView {
+public interface IRecordView extends ISwipeRefreshView {
 
     /**
-     * Created by Aloha <br>
-     * -explain 获取首页黑白灰标题查询
-     * @Date 2017/7/13 10:01
-     * @param dataList
+     * 刷新本地录音文件
      */
-    void showWhiteBlackProductsTitle(List<Map<String, String>> dataList);
+    void refreshLocalCallRecords();
 
     /**
-     * Created by Aloha <br>
-     * -explain 查询用户黑白灰类型
-     * @Date 2017/12/13 10:01
+     * 显示客户资料page
+     * @param responsePage
      */
-    void showWhiteBlackUserType(Map<String, Object> dataMap);
+    void showCustomerPage(String responsePage);
+
 }

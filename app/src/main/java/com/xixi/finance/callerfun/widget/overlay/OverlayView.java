@@ -4,22 +4,38 @@ package com.xixi.finance.callerfun.widget.overlay;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.Build;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
+import android.util.AttributeSet;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xixi.finance.callerfun.R;
+import com.xixi.finance.callerfun.constant.ServiceAPIConstant;
 import com.xixi.finance.callerfun.util.LogUtil;
 import com.xixi.finance.callerfun.util.Utils;
+import com.xixi.finance.callerfun.version.PersistentDataCacheEntity;
 import com.xixi.finance.callerfun.widget.Title;
 
 /**
@@ -51,6 +67,9 @@ public class OverlayView extends Overlay {
      */
     private static Title mTitle = null;
 
+    private static WebView webView;
+    private static ProgressBar progressBar;
+
     /**
      * 正在加载布局
      */
@@ -77,22 +96,38 @@ public class OverlayView extends Overlay {
     private static Button mAnswerCallBt = null;
 
     /**
+     * 通话插屏页Html
+     */
+    private static String mWebPageHtml;
+
+    public OverlayView(Context context) {
+        super(context);
+    }
+
+    public OverlayView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public OverlayView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    /**
      * 显示
      *
      * @param context 上下文对象
      * @param number
      */
-    public static void show(final Context context, final String number, final int percentScreen) {
+    public static void show(final Context context, final String webPageHtml,final String number, final int percentScreen) {
         synchronized (monitor) {
             mContext = context;
-
-            init(context, number, R.layout.call_over_layout, percentScreen);
-            InputMethodManager imm = (InputMethodManager)context
+            mWebPageHtml = webPageHtml;
+            init(context, number, R.layout.content_main, percentScreen);
+            /*InputMethodManager imm = (InputMethodManager)context
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
                     InputMethodManager.HIDE_IMPLICIT_ONLY);
-            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);*/
         }
     }
 
@@ -141,7 +176,7 @@ public class OverlayView extends Overlay {
      */
     private static void initView(View v, String phoneNum, int percentScreen) {
         // 标题栏
-        mTitle = (Title)v.findViewById(R.id.overlay_title);
+       /* mTitle = (Title)v.findViewById(R.id.overlay_title);
         mTitle.setTitle(R.string.call_ringing);
 
         // 显示来电电话
@@ -165,6 +200,129 @@ public class OverlayView extends Overlay {
             mAnswerCallBt = (Button)v.findViewById(R.id.overlay_answer_call_bt);
             v.findViewById(R.id.overlay_dealwith_layout).setVisibility(View.VISIBLE);
             addListener();
+        }
+        mLoadingLayout.setVisibility(View.GONE);
+        mRetLayout.setVisibility(View.VISIBLE);
+        mLoadingTv.setText("QQQ");*/
+        webView = (WebView) v.findViewById(R.id.web_view);
+        progressBar = (ProgressBar) v.findViewById(R.id.progress_bar_browser);
+
+        /**
+         * 配置WebSetting
+         */
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setJavaScriptEnabled(true); // 能够执行JavaScript脚本
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true); // 支持通过JS打开新窗口
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setSupportZoom(true);
+        webSettings.setUseWideViewPort(true);//设置webview推荐使用的窗口
+        webSettings.setLoadWithOverviewMode(true);//设置webview加载的页面的模式
+        webSettings.setDisplayZoomControls(false);//隐藏webview缩放按钮
+        webSettings.setDefaultTextEncodingName("utf-8");//设置默认为utf-8
+        /**
+         * Created by Aloha <br>
+         * -explain Webview 调试
+         * @Date 2016/10/27 14:58
+         */
+        /*if(BuildConfig.VERSION_CODE>=19){
+            webView.setWebContentsDebuggingEnabled(true);
+        }*/
+        webView.addJavascriptInterface(new JavaScriptFormH5Interface(), "javaScriptFunction");
+        webView.setWebViewClient(new WebViewClient() {
+
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                //LogUtil.biubiubiu("shouldInterceptRequest-url:"+request.getUrl());
+                return super.shouldInterceptRequest(view, request);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+                //return super.shouldOverrideUrlLoading(view, url);
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                LogUtil.biubiubiu("onPageStarted-url:" + url);
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                LogUtil.biubiubiu("onPageFinished-url:" + url);
+                super.onPageFinished(view, url);
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @SuppressWarnings("deprecation")
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                LogUtil.biubiubiu("webview-url-" + request.getUrl() + "-error-" + error);
+                if (request.getUrl().toString().contains("favicon.ico"))
+                    return;
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @SuppressWarnings("deprecation")
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                LogUtil.biubiubiu("webview-url-" + request.getUrl() + "-errorResponse-" + errorResponse.getStatusCode());
+                if (request.getUrl().toString().contains("favicon.ico"))
+                    return;
+            }
+        });
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                // TODO Auto-generated method stub
+                if (newProgress == 100) {
+                    if (progressBar != null) {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                } else {
+                    if (progressBar != null) {
+                        if (progressBar.getVisibility() == View.GONE) {
+                            progressBar.setVisibility(View.VISIBLE);
+                        }
+                        progressBar.setProgress(newProgress);
+                    }
+                }
+                super.onProgressChanged(view, newProgress);
+            }
+
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                /*try {
+                    goBackMark = false;
+                    String titleDeal = title;
+                    if (!TextUtils.isEmpty(titleDeal) && tv_title != null) {
+                        if (titleDeal.contains("lbdApp") | titleDeal.contains("com") | title.contains("http"))
+                            return;
+                        if (titleDeal.equals(titleTemp)) {
+                            titleDeal = titleDeal + iTemp;
+                            iTemp++;
+                        }
+                        titleTemp = title;
+                        if (titleDeal.contains("-")) {
+                            titleDeal = titleDeal.replaceAll("-", "");
+                        }
+                        titleDeal = titleDeal.trim();
+                        titleTv.setText(title + "");
+                    }
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }*/
+                super.onReceivedTitle(view, title);
+            }
+        });
+        if (!TextUtils.isEmpty(mWebPageHtml)) {
+            webView.loadDataWithBaseURL(ServiceAPIConstant.API_BASE_PAGE_URL, mWebPageHtml , "text/html","utf-8", null);
         }
     }
 
@@ -199,7 +357,7 @@ public class OverlayView extends Overlay {
      */
     private static WindowManager.LayoutParams getShowingParams() {
         WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-        params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
+        params.type = WindowManager.LayoutParams.TYPE_PHONE;
         // TYPE_TOAST TYPE_SYSTEM_OVERLAY 在其他应用上层 在通知栏下层 位置不能动鸟
         // TYPE_PHONE 在其他应用上层 在通知栏下层
         // TYPE_PRIORITY_PHONE TYPE_SYSTEM_ALERT 在其他应用上层 在通知栏上层 没试出来区别是啥
@@ -210,7 +368,6 @@ public class OverlayView extends Overlay {
         params.format = PixelFormat.RGBA_8888;// value = 1
         params.gravity = Gravity.TOP;
         params.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
-                | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
                 | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
                 | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
@@ -253,6 +410,33 @@ public class OverlayView extends Overlay {
         Point size = new Point();
         display.getSize(size);
         return size.y > size.x ? size.y : size.x;
+    }
+
+    /**
+     * Created by Aloha <br>
+     * -explain H5调用本地分享方法
+     *
+     * @Date 2016/10/28 10:57
+     */
+    static class JavaScriptFormH5Interface {
+
+        JavaScriptFormH5Interface() {}
+
+        @JavascriptInterface
+        public void toastSomethingTips(String tips) {
+            Toast.makeText(mContext, tips, Toast.LENGTH_SHORT).show();
+        }
+
+        @JavascriptInterface
+        public void saveCallCustomerName(String name) {
+
+        }
+
+        @JavascriptInterface
+        public void loadUrlToH5(final String url) {
+            String qq = url + "?token=" + PersistentDataCacheEntity.getInstance().getToken();
+            webView.loadUrl(qq);
+        }
     }
 
 }

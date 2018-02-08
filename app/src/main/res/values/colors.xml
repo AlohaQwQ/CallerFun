@@ -3,18 +3,18 @@
     <color name="colorTheme">#000000</color>
     <color name="colorThemetext">#FFFFFF</color>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#1E8AE8</color>
     <color name="colorAccent">#1B959F</color>
     <color name="colorAccent2">#FF4081</color>
     <color name="colorTransparent">#00FFFFFF</color>
 
     <color name="xixi_blue">#00C8FF</color>
     <color name="xixi_gray">#F4F4F4</color>
+    <color name="xixi_green">#45B035</color>
+    <color name="xixi_back_deep_gray">#bebebe</color>
     <color name="xixi_text_gray">#a1a1a1</color>
     <color name="xixi_text_orange">#F6B24B</color>
-    <color name="xixi_title_color">#2a2a2a</color>
-
-
+    <color name="xixi_title_color">#ffffff</color>
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
@@ -31,6 +31,7 @@
     <color name="light_purple">#6d80d5</color>
     <color name="black_purple">#6276cf</color>
     <color name="divider_line_color">#dbdbdb</color>
+    <color name="divider_line_deep_color">#E0E0E0</color>
 
     <color name="bottom_tab_select_color">#00ace6</color>
     <color name="bottom_tab_color">#a1a1a1</color>

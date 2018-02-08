@@ -7,7 +7,7 @@ android {
     defaultConfig {
 //        applicationId "cn.chutong.sdk.conn"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
@@ -19,7 +19,7 @@ android {
     }
 }
 
-def appcompatSupportVersion = '24.2.1'
+def appcompatSupportVersion = '25.3.1'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])

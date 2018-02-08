@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,11 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.xixi.finance.callerfun.widget.LeRecyclerView
-            android:id="@+id/recycle_fragment_record"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_above="@+id/lay_play_record"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/lay_play_record" />
+            android:layout_height="match_parent">
+            <com.xixi.finance.callerfun.widget.LeRecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <LinearLayout
             android:id="@+id/lay_play_record"
@@ -31,14 +37,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:padding="16dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="6dp"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
                     android:src="@mipmap/ic_record_microphone" />
 
                 <LinearLayout
@@ -51,10 +59,9 @@
                     <SeekBar
                         android:id="@+id/seekbar_fragment_record"
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:indeterminate="false"
-                        android:max="100"
-                        android:progress="0" />
+                        android:layout_height="wrap_content"
+                        android:minHeight="20dp"
+                        android:focusable="true" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -73,14 +80,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="名字"
-                                android:textSize="@dimen/mid_size" />
+                                android:textSize="@dimen/normal_size" />
 
                             <TextView
                                 android:id="@+id/tv_playtime_fragment_record"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
-                                android:text="00:00:00"
+                                android:text="00:00"
                                 android:textColor="@color/xixi_text_gray"
                                 android:textSize="@dimen/min_size" />
                         </LinearLayout>
@@ -92,29 +99,33 @@
 
                             <ImageView
                                 android:id="@+id/btn_play_record_fragment_record"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/selector_record_play" />
-
-                            <ImageView
-                                android:id="@+id/btn_play_next_fragment_record"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_gravity="center_vertical"
+                                android:background="@mipmap/ic_record_play_normal" />
+
+                            <ImageView
+                                android:id="@+id/btn_play_next_fragment_record"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="8dp"
-                                android:src="@drawable/selector_record_pause" />
+                                android:src="@drawable/selector_record_next" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 
     <include
-        android:id="@+id/lay_empty_list"
+        android:id="@+id/lay_empty_status"
         layout="@layout/status_view_empty"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/lay_status_nologin"
+        layout="@layout/status_view_nologin"
         android:visibility="gone" />
 
     <include

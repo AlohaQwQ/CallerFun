@@ -1,5 +1,7 @@
 package com.xixi.finance.callerfun.model.record;
 
+import java.io.File;
+
 import aloha.shiningstarbase.base.IBaseModel;
 import cn.chutong.sdk.conn.OkHttpRequest;
 
@@ -10,10 +12,39 @@ import cn.chutong.sdk.conn.OkHttpRequest;
 public interface IRecordModel extends IBaseModel {
 
     /**
-     * Created by Aloha <br>
-     * -explain 获取通话列表记录
-     * @Date 2018/1/18 17:11
+     * 上传录音文件
+     * @return
      */
-    OkHttpRequest fetchCallList();
+    OkHttpRequest uploadRecordFile(File recordFile,String recordDuration, String phone);
+
+    /**
+     * 获取录音列表
+     * @return
+     */
+    OkHttpRequest fetchRecords();
+
+    /**
+     * 获取一个月份的录音详情
+     * @return
+     */
+    OkHttpRequest fetchRecordDetailMonth(String year, String month);
+
+    /**
+     * 获取来电显示用户资料页
+     * @return
+     */
+    OkHttpRequest fetchCallInPage(String callPhone);
+
+    /**
+     * 获取来电显示用户详情
+     * @return
+     */
+    OkHttpRequest fetchCallInCustomerInformation(String callPhone);
+
+    /**
+     * 获取用户资料页
+     * @return
+     */
+    OkHttpRequest fetchCustomerPage(String callPhone);
 
 }
