@@ -19,6 +19,7 @@ import com.xixi.finance.callerfun.presenter.main.CallListPresenter;
 import com.xixi.finance.callerfun.ui.activity.LoginActivity;
 import com.xixi.finance.callerfun.ui.activity.MainActivity;
 import com.xixi.finance.callerfun.ui.view.main.ICallListView;
+import com.xixi.finance.callerfun.util.TimeUtils;
 import com.xixi.finance.callerfun.version.PersistentDataCacheEntity;
 import com.xixi.finance.callerfun.widget.DatePickerkerDialog;
 
@@ -111,6 +112,7 @@ public class CallDetailListFragment extends BaseSwipeRefreshFragment<ICallListVi
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
         initUI();
         initData();
     }
@@ -168,9 +170,13 @@ public class CallDetailListFragment extends BaseSwipeRefreshFragment<ICallListVi
                         }
                     }
                     tvAllCallAmount.setText(jsonObject.getString(APIKey.RECORD_ALL_COUNT));
-                    tvAllCallTimeAmount.setText(jsonObject.getString(APIKey.RECORD_ALL_DURATION));
+                    tvAllCallTimeAmount.setText(TimeUtils.formatRecordSecond(jsonObject.getString(APIKey.RECORD_ALL_DURATION)));
                     tvCallAmount.setText(jsonObject.getString(APIKey.RECORD_THIS_COUNT));
-                    tvCallTimeAmount.setText(jsonObject.getString(APIKey.RECORD_THIS_DURATION));
+                    if(jsonObject.getString(APIKey.RECORD_THIS_DURATION).equals("0")){
+                        tvCallTimeAmount.setText("00:00");
+                    } else {
+                        tvCallTimeAmount.setText(TimeUtils.formatRecordSecond(jsonObject.getString(APIKey.RECORD_THIS_DURATION)));
+                    }
                     tvCallType1Amount.setText(jsonObject.getString(APIKey.RECORD_THIS_S0));
                     tvCallType2Amount.setText(jsonObject.getString(APIKey.RECORD_THIS_S60));
                     tvCallType3Amount.setText(jsonObject.getString(APIKey.RECORD_THIS_S180));
@@ -182,8 +188,11 @@ public class CallDetailListFragment extends BaseSwipeRefreshFragment<ICallListVi
                             public void convert(final SuperRecycleViewHolder holder, final int position, final CallDetail callDetail) {
                                 holder.setText(R.id.tv_date_item_call_detail, callDetail.getDate() + "日");
                                 holder.setText(R.id.tv_call_amount_item_call_detail, callDetail.getCount());
-                                holder.setText(R.id.tv_call_amount_duration_item_call_detail, callDetail.getDuration());
-
+                                if(callDetail.getDuration().equals("0")){
+                                    holder.setText(R.id.tv_call_amount_duration_item_call_detail, "00:00");
+                                } else {
+                                    holder.setText(R.id.tv_call_amount_duration_item_call_detail, TimeUtils.formatRecordSecond(callDetail.getDuration()));
+                                }
                                 holder.setText(R.id.tv_call_type1_item_call_detail, callDetail.getT60());
                                 holder.setText(R.id.tv_call_type2_item_call_detail, callDetail.getT60_180());
                                 holder.setText(R.id.tv_call_type3_item_call_detail, callDetail.getT180_360());
@@ -240,11 +249,9 @@ public class CallDetailListFragment extends BaseSwipeRefreshFragment<ICallListVi
 
     @Override
     protected void onSwipeRefresh() {
-        if (!isRefreshing()) {
-            setLoadMore(true);
-            callDetailList.clear();
-            refreshRecordDetailMonth();
-        }
+        setRefresh(true);
+        callDetailList.clear();
+        refreshRecordDetailMonth();
     }
 
     @Override

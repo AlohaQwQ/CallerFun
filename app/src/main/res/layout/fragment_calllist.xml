@@ -151,98 +151,98 @@
                 android:background="@color/divider_line_deep_color" />
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/lay_cotent_fragment_calllist"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_above="@+id/bb"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:id="@+id/lay_cotent_fragment_calllist"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:layout_above="@+id/bb"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="4dp">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:layout_weight="1"
-                        android:text="21日    "
-                        android:visibility="invisible"
-                        android:layout_marginRight="8dp"
-                        android:textStyle="bold" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="4dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:gravity="center_horizontal"
-                        android:text="通话数量"
-                        android:layout_marginRight="8dp"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:layout_weight="1"
+                            android:text="21日    "
+                            android:visibility="invisible"
+                            android:layout_marginRight="8dp"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="5"
-                        android:gravity="center_horizontal"
-                        android:textStyle="bold"
-                        android:layout_marginRight="8dp"
-                        android:text="通话累积时长" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:gravity="center_horizontal"
+                            android:text="通话数量"
+                            android:layout_marginRight="8dp"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="center_horizontal"
-                        android:layout_marginRight="8dp"
-                        android:text="60s以下" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="5"
+                            android:gravity="center_horizontal"
+                            android:textStyle="bold"
+                            android:layout_marginRight="8dp"
+                            android:text="通话累积时长" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="center_horizontal"
-                        android:textStyle="bold"
-                        android:layout_marginRight="8dp"
-                        android:text="60-180s" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="center_horizontal"
+                            android:layout_marginRight="8dp"
+                            android:textStyle="bold"
+                            android:text="60s以下" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="center_horizontal"
-                        android:textStyle="bold"
-                        android:layout_marginRight="8dp"
-                        android:text="180-360s" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="center_horizontal"
+                            android:textStyle="bold"
+                            android:layout_marginRight="8dp"
+                            android:text="60-180s" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="center_horizontal"
-                        android:textStyle="bold"
-                        android:text="360s以上" />
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="center_horizontal"
+                            android:textStyle="bold"
+                            android:layout_marginRight="8dp"
+                            android:text="180-360s" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/divider_line_height"
-                    android:layout_marginLeft="12dp"
-                    android:background="@color/divider_line_color" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="center_horizontal"
+                            android:textStyle="bold"
+                            android:text="360s以上" />
+                    </LinearLayout>
 
-                <android.support.v4.widget.SwipeRefreshLayout
-                    android:id="@+id/swipe_refresh_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/divider_line_height"
+                        android:layout_marginLeft="12dp"
+                        android:background="@color/divider_line_color" />
 
                     <com.xixi.finance.callerfun.widget.LeRecyclerView
                         android:id="@+id/recycler_view"
@@ -251,75 +251,73 @@
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true" />
-                </android.support.v4.widget.SwipeRefreshLayout>
+                </LinearLayout>
 
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/bb"
-                android:layout_alignParentBottom="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="@color/xixi_gray"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:paddingRight="8dp"
-                android:paddingLeft="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/bb"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
-                    android:gravity="left"
-                    android:text="总计"
-                    android:textStyle="bold" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:background="@color/xixi_gray"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="8dp"
+                    android:paddingLeft="8dp">
 
-                <TextView
-                    android:id="@+id/tv_call_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:gravity="left"
+                        android:text="总计"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_call_time_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.4"
-                    android:gravity="center_horizontal" />
+                    <TextView
+                        android:id="@+id/tv_call_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal" />
 
-                <TextView
-                    android:id="@+id/tv_call_type1_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal" />
+                    <TextView
+                        android:id="@+id/tv_call_time_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        android:gravity="center_horizontal" />
 
-                <TextView
-                    android:id="@+id/tv_call_type2_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal" />
+                    <TextView
+                        android:id="@+id/tv_call_type1_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.1"
+                        android:gravity="center_horizontal" />
 
-                <TextView
-                    android:id="@+id/tv_call_type3_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal" />
+                    <TextView
+                        android:id="@+id/tv_call_type2_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal" />
 
-                <TextView
-                    android:id="@+id/tv_call_type4_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal" />
-            </LinearLayout>
-        </RelativeLayout>
+                    <TextView
+                        android:id="@+id/tv_call_type3_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal" />
+
+                    <TextView
+                        android:id="@+id/tv_call_type4_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal" />
+                </LinearLayout>
+            </RelativeLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 
     <include
@@ -334,6 +332,7 @@
 
     <include
         android:id="@+id/swipe_refresh_status_layout"
+        android:visibility="gone"
         layout="@layout/loading_tantantan" />
 
 </android.support.design.widget.CoordinatorLayout>

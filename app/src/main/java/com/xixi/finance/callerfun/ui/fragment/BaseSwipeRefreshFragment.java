@@ -48,8 +48,7 @@ public abstract class BaseSwipeRefreshFragment<V extends IBaseView, T extends Ba
 
     private void initSwipeRefreshLayout() {
         if (null != swipe_refresh_layout) {
-            swipe_refresh_layout.setColorSchemeResources(R.color.colorPrimaryDark,R.color.colorAccent2,
-                    R.color.xixi_text_orange,R.color.colorAccent);
+            swipe_refresh_layout.setColorSchemeResources(R.color.colorPrimaryDark,R.color.colorAccent);
             swipe_refresh_layout.setOnRefreshListener(this);
         }
     }

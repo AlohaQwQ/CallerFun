@@ -28,6 +28,7 @@ import com.xixi.finance.callerfun.version.PersistentDataCacheEntity;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import aloha.shiningstarbase.util.recycleviewadapter.CommonAdapter;
@@ -120,7 +121,10 @@ public class RecordFragment extends BaseSwipeRefreshFragment<IRecordView, Record
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            refreshLocalCallRecords();
+            recordFiles.clear();
+            callRecordLocals.clear();
+            initData();
+            //refreshLocalCallRecords();
         }
     };
 
@@ -189,6 +193,7 @@ public class RecordFragment extends BaseSwipeRefreshFragment<IRecordView, Record
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null)
             mSectionPage = bundle.getInt(ARG_SECTION_PAGE);
@@ -250,9 +255,11 @@ public class RecordFragment extends BaseSwipeRefreshFragment<IRecordView, Record
                 refreshLocalCallRecords();
             } else {
                 layEmptyStatus.setVisibility(View.VISIBLE);
+                showContentView();
             }
         } else {
             layStatusNologin.setVisibility(View.VISIBLE);
+            showContentView();
         }
     }
 
@@ -265,7 +272,7 @@ public class RecordFragment extends BaseSwipeRefreshFragment<IRecordView, Record
         playTime = 0;
         isPlaying = false;
         callRecordLocal.setPlaying(isPlaying);
-        mediaPlayer.reset();
+        //mediaPlayer.reset();
     }
 
     /**
@@ -276,6 +283,7 @@ public class RecordFragment extends BaseSwipeRefreshFragment<IRecordView, Record
      */
     private void prepareRecord(int recordNumber, CallRecordLocal callRecordLocal) {
         try {
+            mediaPlayer.reset();
             mediaPlayer.setDataSource(recordFiles.get(recordNumber).getAbsolutePath());
             mediaPlayer.prepare();
             selectRecordPlaying = recordNumber;
@@ -337,8 +345,13 @@ public class RecordFragment extends BaseSwipeRefreshFragment<IRecordView, Record
     @Override
     public void refreshLocalCallRecords() {
         layEmptyStatus.setVisibility(View.GONE);
-        recordFiles = AudioFileUtils.getWavRecordFiles(getContext());
-        callRecordLocals = transformationRecord(recordFiles);
+        recordFiles.addAll(AudioFileUtils.getWavRecordFiles(getContext()));
+        callRecordLocals.addAll(transformationRecord(recordFiles));
+        /**
+         * 倒序排列
+         */
+        Collections.reverse(recordFiles);
+        Collections.reverse(callRecordLocals);
         if (callRecordLocals.size() > 0)
             prepareRecord(0, callRecordLocals.get(0));
         if (mCommonAdapter == null) {
@@ -357,11 +370,19 @@ public class RecordFragment extends BaseSwipeRefreshFragment<IRecordView, Record
                     holder.setText(R.id.tv_call_duration, callRecord.getMinuteSecond1());
                     holder.setText(R.id.tv_call_time, callRecord.getCreateTime());
                     if (callRecord.isPlaying()) {
+                        holder.setEnabled(R.id.tv_call_customer_name, false);
+                        holder.setEnabled(R.id.tv_call_customer_phone, false);
+                        holder.setEnabled(R.id.tv_call_duration, false);
+                        holder.setEnabled(R.id.tv_call_time, false);
                         holder.setBackgroundRes(R.id.btn_record_play, R.mipmap.ic_record_pause_normal_round);
                     } else {
+                        holder.setEnabled(R.id.tv_call_customer_name, true);
+                        holder.setEnabled(R.id.tv_call_customer_phone, true);
+                        holder.setEnabled(R.id.tv_call_duration, true);
+                        holder.setEnabled(R.id.tv_call_time, true);
                         holder.setBackgroundRes(R.id.btn_record_play, R.mipmap.ic_record_play_normal_round);
                     }
-                    holder.setOnClickListener(R.id.tv_call_customer_name, new View.OnClickListener() {
+                    holder.setOnClickListener(R.id.lay_item_record_list, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             /**
@@ -374,20 +395,7 @@ public class RecordFragment extends BaseSwipeRefreshFragment<IRecordView, Record
                             mPresenter.fetchCustomerPage(callRecord.getCallPhoneNumber());
                         }
                     });
-                    holder.setOnClickListener(R.id.tv_call_customer_phone, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            /**
-                             * 存储用户录音文件路径
-                             */
-                            recordFilePath = recordFiles.get(position).getAbsolutePath();
-                            /**
-                             * 获取客户资料page
-                             */
-                            mPresenter.fetchCustomerPage(callRecord.getCallPhoneNumber());
-                        }
-                    });
-                    holder.setOnClickListener(R.id.btn_record_play, new View.OnClickListener() {
+                    holder.setOnClickListener(R.id.lay_btn_record_play, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (selectRecordPlaying != position){
@@ -488,15 +496,14 @@ public class RecordFragment extends BaseSwipeRefreshFragment<IRecordView, Record
     /**
      * Created by Aloha <br>
      * -explain 下拉刷新
-     *
      * @Date 2017/9/26 15:22
      */
     @Override
     protected void onSwipeRefresh() {
-        if (!isRefreshing()) {
-            setLoadMore(true);
-            refreshLocalCallRecords();
-        }
+        setRefresh(true);
+        recordFiles.clear();
+        callRecordLocals.clear();
+        initData();
     }
 
     @Override

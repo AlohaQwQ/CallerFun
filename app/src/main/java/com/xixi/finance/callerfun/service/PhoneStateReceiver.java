@@ -137,8 +137,11 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                         break;
                     case TelephonyManager.CALL_STATE_IDLE:// 挂断电话
                         synchronized (monitor) {
-                            onCallHandUp(context);
-                            PhoneStateManager.lastCallState = TelephonyManager.CALL_STATE_IDLE;
+                            /**
+                             * 去电防挂
+                             */
+                            if (PhoneStateManager.stateChange == TelephonyManager.CALL_STATE_OFFHOOK)
+                                onCallHandUp(context);
                             switch (showType) {
                                 case ShowPref.TYPE_ACTIVITY:
                                     Utils.sendEndCallBroadCast(ctx);
@@ -149,6 +152,8 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                                     closeWindow(ctx);
                                     break;
                             }
+                            PhoneStateManager.lastCallState = TelephonyManager.CALL_STATE_IDLE;
+                            PhoneStateManager.stateChange = TelephonyManager.CALL_STATE_IDLE;
                         }
                         break;
                     default:
@@ -242,8 +247,11 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                     break;
                 case TelephonyManager.CALL_STATE_IDLE:// 挂断电话
                     synchronized (monitor) {
-                        onCallHandUp(context);
-                        PhoneStateManager.lastCallState = TelephonyManager.CALL_STATE_IDLE;
+                        /**
+                         * 去电防挂
+                         */
+                        if (PhoneStateManager.stateChange == TelephonyManager.CALL_STATE_OFFHOOK)
+                            onCallHandUp(context);
                         switch (showType) {
                             case ShowPref.TYPE_ACTIVITY:
                                 Utils.sendEndCallBroadCast(ctx);
@@ -254,6 +262,8 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                                 closeWindow(ctx);
                                 break;
                         }
+                        PhoneStateManager.lastCallState = TelephonyManager.CALL_STATE_IDLE;
+                        PhoneStateManager.stateChange = TelephonyManager.CALL_STATE_IDLE;
                     }
                     break;
                 default:

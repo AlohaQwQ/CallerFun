@@ -2,6 +2,7 @@ package com.xixi.finance.callerfun.ui.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -10,6 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.xixi.finance.callerfun.R;
 import com.xixi.finance.callerfun.presenter.user.UserPresenter;
 import com.xixi.finance.callerfun.ui.activity.LoginActivity;
@@ -61,6 +66,17 @@ public class UserFragment extends BaseFragment<IUserView, UserPresenter> impleme
      */
     private int mSectionPage;
 
+    private DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.mipmap.ic_launcher)
+            .showImageOnFail(R.mipmap.ic_launcher)
+            .delayBeforeLoading(1)
+            .cacheInMemory()
+            .cacheOnDisc()
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .displayer(new SimpleBitmapDisplayer())
+            .build();
+
     public UserFragment() {
     }
 
@@ -103,6 +119,12 @@ public class UserFragment extends BaseFragment<IUserView, UserPresenter> impleme
 
         if(!TextUtils.isEmpty(PersistentDataCacheEntity.getInstance().getName()))
             tvUserName.setText(PersistentDataCacheEntity.getInstance().getName());
+        if(!TextUtils.isEmpty(PersistentDataCacheEntity.getInstance().getUserHearImg())){
+            ImageLoader.getInstance().displayImage(PersistentDataCacheEntity.getInstance().getUserHearImg(),
+                    imgUserHead, options);
+        } else {
+            imgUserHead.setBackgroundResource(R.mipmap.ic_launcher);
+        }
     }
 
     @Override
@@ -125,7 +147,6 @@ public class UserFragment extends BaseFragment<IUserView, UserPresenter> impleme
                         tvRecordSize.setText(AudioFileUtils.getRecordFilesStorageSize(getContext()));
                         showToast("清除完毕");
                     }
-
                     @Override
                     public void onNegativeButtonClick(DialogInterface dialog) {
                         dialog.dismiss();
@@ -143,7 +164,9 @@ public class UserFragment extends BaseFragment<IUserView, UserPresenter> impleme
                 intent.setAction(MainActivity.ACTION_LOGOUT);
                 mainActivity.sendBroadcast(intent);
                 PersistentDataCacheEntity.getInstance().setToken("");
-
+                PersistentDataCacheEntity.getInstance().setUserHearImg("");
+                imgUserHead.setBackgroundResource(R.mipmap.ic_launcher);
+                PersistentDataCacheEntity.getInstance().setName("用户");
                 getActivity().startActivity(new Intent(getActivity(), LoginActivity.class));
                 break;
         }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
@@ -11,11 +12,30 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/mid_size"
+                android:textColor="@color/xixi_blue"
+                android:text="选择月份"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_line_height"
+            android:background="@color/xixi_blue" />
+
         <DatePicker
             android:id="@+id/datePickerStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:calendarViewShown="false"
+            android:calendarTextColor="@color/xixi_blue"
+            android:yearListItemTextAppearance="@style/DatePickerTextStyle"
             android:datePickerMode="spinner" />
     </LinearLayout>
 </LinearLayout>

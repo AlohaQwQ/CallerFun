@@ -35,9 +35,28 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="ShowHidePasswordBlueCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/selector_show_hide_password</item>
+    </style>
+
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">@dimen/mid_size</item>
+    </style>
+
+    <style name="DatePickerTextStyle">
+        <item name="android:textSize">@dimen/normal_size</item>
+    </style>
+
+    <!--自定义seekbarstyle-->
+    <style name="CustomSeekbarStyle">
+        <item name="android:maxHeight">2dp</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:indeterminateDrawable">@color/xixi_blue</item>
+        <item name="android:progressDrawable">@drawable/seekbar_progress_drawable</item>
+        <item name="android:minHeight">2dp</item>
+        <item name="android:thumb">@mipmap/ic_progress_thumb</item>
     </style>
 </resources>

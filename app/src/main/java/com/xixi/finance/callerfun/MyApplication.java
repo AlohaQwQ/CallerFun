@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.xixi.finance.callerfun.ui.activity.BaseActivity;
+import com.xixi.finance.callerfun.util.ImageLoaderManager;
 
 import java.util.Stack;
 
@@ -55,6 +56,10 @@ public class MyApplication extends Application {
         // 初始化OkHttpClientManager
         OkHttpClientConfiguration configuration = OkHttpClientConfiguration.createDefault(this);
         OkHttpClientManager.getInstance().init(configuration);
+
+        // 初始化ImageLoader
+        ImageLoaderManager imageLoader = new ImageLoaderManager();
+        imageLoader.init(this);
 
         //数据库初始化
         //StatisticsDatabaseHelper.init(this);

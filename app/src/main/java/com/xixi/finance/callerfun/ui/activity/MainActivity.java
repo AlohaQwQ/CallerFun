@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -20,13 +21,24 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.alibaba.fastjson.JSONObject;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 import com.xixi.finance.callerfun.MyApplication;
 import com.xixi.finance.callerfun.R;
 import com.xixi.finance.callerfun.config.ShowPref;
 import com.xixi.finance.callerfun.constant.APIKey;
+import com.xixi.finance.callerfun.constant.ServiceAPIConstant;
 import com.xixi.finance.callerfun.presenter.BasePresenter;
 import com.xixi.finance.callerfun.presenter.main.MainPresenter;
 import com.xixi.finance.callerfun.service.CallRecordingService;
@@ -40,6 +52,7 @@ import com.xixi.finance.callerfun.version.PersistentDataCacheEntity;
 import com.xixi.finance.callerfun.widget.overlay.OverlayView;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +63,7 @@ import cn.chutong.sdk.common.util.TypeUtil;
 /**
  * Created by Aloha <br>
  * -explain MainActivity
+ *
  * @Date 2018/1/18 11:13
  */
 public class MainActivity extends BaseFragmentActivity {
@@ -109,10 +123,13 @@ public class MainActivity extends BaseFragmentActivity {
     private CallRecordingService.OnRecordOverCallBack onRecordOverCallBack = new CallRecordingService.OnRecordOverCallBack() {
         @Override
         public void onRecordOver(File recordFile) {
-            if(recordFile!=null && recordFile.exists()){
+            if (recordFile != null && recordFile.exists()) {
+                /**
+                 * 刷新首页录音列表
+                 */
                 if (null != fragments.get(0))
                     ((RecordFragment) fragments.get(0)).refreshLocalCallRecordsForMain();
-                mainPresenter.uploadRecordFile(recordFile,
+               /*mainPresenter.uploadRecordFile(recordFile,
                         String.valueOf(AudioFileUtils.getRecordDuration(recordFile.getAbsolutePath())),
                         PersistentDataCacheEntity.getInstance().getCallNumber(), new MainPresenter.ResponseCallBack() {
                             @Override
@@ -123,7 +140,48 @@ public class MainActivity extends BaseFragmentActivity {
                                     showToast("录音上传失败");
                                 }
                             }
-                        });
+                        });*/
+                RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), recordFile);
+                RequestBody requestBody = new MultipartBuilder()
+                        .type(MultipartBuilder.FORM)
+                        .addPart(Headers.of(
+                                "Content-Disposition",
+                                "form-data; name=\"" + APIKey.RECORD_IPT_DURATION + "\""),
+                                RequestBody.create(null, String.valueOf(AudioFileUtils.getRecordDurationSecond(recordFile.getAbsolutePath()))))
+                        .addPart(Headers.of(
+                                "Content-Disposition",
+                                "form-data; name=\"" + APIKey.RECORD_IPT_PHONE + "\""),
+                                RequestBody.create(null, PersistentDataCacheEntity.getInstance().getCallNumber()))
+                        .addPart(Headers.of(
+                                "Content-Disposition",
+                                "form-data; name=\"attach[]\"; filename=\"" + recordFile.getName() + "\""), fileBody)
+                        .build();
+
+                //创建okHttpClient对象
+                OkHttpClient mOkHttpClient = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url(ServiceAPIConstant.API_BASE_URL +
+                                ServiceAPIConstant.REQUEST_API_RECORD_UPLOAD +
+                                "&token=" + PersistentDataCacheEntity.getInstance().getToken())
+                        .post(requestBody)
+                        .build();
+
+                mOkHttpClient.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
+                        LogUtil.biubiubiu("ServerResponse-uploadRecordFile-onFailure-" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(Response response) throws IOException {
+                        String callBackResponse = response.body().string();
+                        LogUtil.biubiubiu("ServerResponse-uploadRecordFile = " + callBackResponse);
+                        Message message = new Message();
+                        message.obj = callBackResponse;
+                        uploadHandler.sendMessage(message);
+                    }
+                });
+
                 /**
                  * 清除本次通话信息
                  */
@@ -134,13 +192,39 @@ public class MainActivity extends BaseFragmentActivity {
         }
     };
 
+    private Handler uploadHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            String response = (String) msg.obj;
+            LogUtil.biubiubiu("ServerResponse-uploadRecordFile = " + response);
+            if (!TextUtils.isEmpty(response)) {
+                try {
+                    JSONObject jsonObject = JSONObject.parseObject(response);
+                    String status = jsonObject.getString(APIKey.COMMON_RESPONSE_CODE);
+                    String message = jsonObject.getString(APIKey.COMMON_MESSAGE2);
+
+                    if (BasePresenter.RESPONSE_STATUS_SUCCESS.equals(status)) {
+                        MainActivity.this.showToast("录音上传成功");
+                    } else {
+                        MainActivity.this.showToast("录音上传失败");
+                    }
+                } catch (Exception e) {
+                    MainActivity.this.showToast("无数据");
+                    LogUtil.biubiubiu("BasePresenter-Exception-" + e);
+                }
+            } else {
+                MainActivity.this.showToast(MyApplication.getInstance().getResources().getString(R.string.error_network));
+            }
+        }
+    };
+
     private ServiceConnection recordConnection = new ServiceConnection() {
 
         @Override
         public void onServiceConnected(ComponentName className,
                                        IBinder binder) {
             // We've bound to LocalService, cast the IBinder and get LocalService instance
-            recordBinder = (CallRecordingService.RecordBinder)binder;
+            recordBinder = (CallRecordingService.RecordBinder) binder;
             MainActivity.this.callRecordingService = (CallRecordingService) recordBinder.getService();
             recordBinder.setRecordOverCallBack(onRecordOverCallBack);
             mBound = true;
@@ -163,17 +247,17 @@ public class MainActivity extends BaseFragmentActivity {
         /**
          * 注册通话广播
 
-        PhoneStateReceiver phoneStateReceiver = new PhoneStateReceiver();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.intent.action.NEW_OUTGOING_CALL");
-        intentFilter.addAction("android.intent.action.PHONE_STATE");
-        intentFilter.setPriority(Integer.MAX_VALUE);
-        registerReceiver(phoneStateReceiver, intentFilter);
+         PhoneStateReceiver phoneStateReceiver = new PhoneStateReceiver();
+         IntentFilter intentFilter = new IntentFilter();
+         intentFilter.addAction("android.intent.action.NEW_OUTGOING_CALL");
+         intentFilter.addAction("android.intent.action.PHONE_STATE");
+         intentFilter.setPriority(Integer.MAX_VALUE);
+         registerReceiver(phoneStateReceiver, intentFilter);
          */
         /**
          * 以半屏Dialog形式显示
          */
-       // pref.putInt(ShowPref.SHOW_TYPE, ShowPref.TYPE_HALF_DIALOG);
+        // pref.putInt(ShowPref.SHOW_TYPE, ShowPref.TYPE_HALF_DIALOG);
 
        /* *//**
          * 以activity形式显示
@@ -188,7 +272,7 @@ public class MainActivity extends BaseFragmentActivity {
          *//*
         pref.putInt(ShowPref.TYPE_HALF_VALUE, 100);*/
 
-        LogUtil.biubiubiu("mShowType:"+mShowType);
+        LogUtil.biubiubiu("mShowType:" + mShowType);
 
         checkPermission();
         registerMainReceiver();
@@ -241,9 +325,10 @@ public class MainActivity extends BaseFragmentActivity {
     /**
      * Created by Aloha <br>
      * -explain 请求权限
+     *
      * @Date 2018/1/25 19:55
      */
-    private void checkPermission(){
+    private void checkPermission() {
         try {
             /*
             //默认关闭的权限
@@ -260,12 +345,12 @@ public class MainActivity extends BaseFragmentActivity {
             if (ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                 String[] permissions = {Manifest.permission.READ_PHONE_STATE};
-                ActivityCompat.requestPermissions(this,permissions, PERMISSION_CHECK);
+                ActivityCompat.requestPermissions(this, permissions, PERMISSION_CHECK);
             }
             if (ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                 String[] permissions = {Manifest.permission.RECORD_AUDIO};
-                ActivityCompat.requestPermissions(this,permissions, PERMISSION_CHECK);
+                ActivityCompat.requestPermissions(this, permissions, PERMISSION_CHECK);
             }
             if (ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
@@ -273,7 +358,7 @@ public class MainActivity extends BaseFragmentActivity {
                     Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE};
-                ActivityCompat.requestPermissions(this,permissions, PERMISSION_CHECK);
+                ActivityCompat.requestPermissions(this, permissions, PERMISSION_CHECK);
             }
 
             /**
@@ -288,9 +373,9 @@ public class MainActivity extends BaseFragmentActivity {
                     startActivityForResult(intent, PERMISSION_CHECK);
                 }
             }
-        } catch (java.lang.RuntimeException e){
+        } catch (java.lang.RuntimeException e) {
             e.printStackTrace();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -298,9 +383,10 @@ public class MainActivity extends BaseFragmentActivity {
     /**
      * Created by Aloha <br>
      * -explain 获取App 配置
+     *
      * @Date 2018/1/25 20:01
      */
-    private void obtainConfiguration(){
+    private void obtainConfiguration() {
         /**
          * Created by Aloha <br>
          * -explain 获取友盟token
@@ -340,7 +426,7 @@ public class MainActivity extends BaseFragmentActivity {
             if (ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                 String[] permissions = {Manifest.permission.READ_PHONE_STATE};
-                ActivityCompat.requestPermissions(this,permissions, PERMISSION_CHECK);
+                ActivityCompat.requestPermissions(this, permissions, PERMISSION_CHECK);
             } else {
                 deviceId = checkAndGetDeviceId();
             }
@@ -354,6 +440,7 @@ public class MainActivity extends BaseFragmentActivity {
 
     /**
      * 检查并获取设备唯一号（DeviceId）
+     *
      * @return 设备唯一号
      */
     private String checkAndGetDeviceId() {
@@ -445,7 +532,7 @@ public class MainActivity extends BaseFragmentActivity {
         if (null != mainReceiver) {
             unregisterReceiver(mainReceiver);
             if (mBound) {
-                LogUtil.biubiubiu("onDestroy-mBound:"+mBound);
+                LogUtil.biubiubiu("onDestroy-mBound:" + mBound);
                 unbindService(recordConnection);
                 stopService(new Intent(MainActivity.this, CallRecordingService.class));
                 mBound = false;
@@ -464,99 +551,30 @@ public class MainActivity extends BaseFragmentActivity {
                             ((RecordFragment) fragments.get(0)).initData();
                         if (null != fragments.get(1))
                             ((CallDetailListFragment) fragments.get(1)).initData();
-                        /*if (null != fragments.get(2))
-                            ((UserFragment) fragments.get(2)).initData();*/
-                    } else if(ACTION_LOGOUT.equals(action)){
+                        if (null != fragments.get(2))
+                            ((UserFragment) fragments.get(2)).initData();
+                    } else if (ACTION_LOGOUT.equals(action)) {
                         if (null != fragments.get(0))
                             ((RecordFragment) fragments.get(0)).initData();
                         if (null != fragments.get(1))
                             ((CallDetailListFragment) fragments.get(1)).initData();
                         if (null != fragments.get(2))
                             ((UserFragment) fragments.get(2)).initData();
-                    } else if(ACTION_RECEIVE_CALL_RING.equals(action)){
+                    } else if (ACTION_RECEIVE_CALL_RING.equals(action)) {
                         /**
                          * 来电响铃
                          */
                         LogUtil.biubiubiu("ACTION_RECEIVE_CALL_RING");
 
                         PersistentDataCacheEntity.getInstance().setCallNumber(intent.getStringExtra("KEY_CALL_OUT_NUMBER"));
-                        LogUtil.biubiubiu("call_number:"+intent.getStringExtra("KEY_CALL_OUT_NUMBER"));
+                        LogUtil.biubiubiu("call_number:" + intent.getStringExtra("KEY_CALL_OUT_NUMBER"));
 
-                        PersistentDataCacheEntity.getInstance().setCallState(intent.getIntExtra("KEY_CALL_STATE",1));
-                        LogUtil.biubiubiu("call_state:"+intent.getIntExtra("KEY_CALL_STATE",1));
-
-                        //showToast("Call Ring");
-                        MainActivity.this.bindService(new Intent(context, CallRecordingService.class),
-                                recordConnection,Context.BIND_AUTO_CREATE);
-                        /**
-                         * 获取通话客户姓名
-                         */
-                        mainPresenter.fetchCallInCustomerInformation(PersistentDataCacheEntity.getInstance().getCallNumber(),
-                                new MainPresenter.ResponseCallBack() {
-                            @Override
-                            public void responseCallBack(Map<String, Object> dataMap, String status, String message) {
-                                if (BasePresenter.RESPONSE_STATUS_SUCCESS.equals(status)) {
-                                    if(dataMap!=null){
-                                        PersistentDataCacheEntity.getInstance().setCallCustomerName(
-                                                TypeUtil.getString(dataMap.get(APIKey.USER_NAME),""));
-                                    }
-                                } else {
-                                    showToast(message);
-                                }
-                            }
-                        });
-                        /**
-                         * 获取通话插屏页面url
-                         */
-                        mainPresenter.fetchCallInPage(PersistentDataCacheEntity.getInstance().getCallNumber(),
-                                new MainPresenter.FetchCallInCallBack() {
-                            @Override
-                            public void fetchCallInCallBack(String response) {
-                                if(response.length()>20){
-                                    int value = pref.loadInt(ShowPref.TYPE_HALF_VALUE,
-                                            ShowPref.TYPE_HALF_DIALOG_DEFAULT);
-                                    final int percent = value >= 25 ? (value <= 75 ? value : 75) : 25;
-                                    /**
-                                     * 来电通话插屏
-                                     */
-                                    OverlayView.show(MainActivity.this,response, PersistentDataCacheEntity.getInstance().getCallNumber(), percent);
-                                } else {
-                                    showToast(response);
-                                }
-                            }
-                        });
-                    } else if(ACTION_RECEIVE_RECORD_CALL_UP.equals(action)){
-                        /**
-                         * 来电接听
-                         */
-                        /**
-                         * 开启Service 并开始录音
-                         */
-                        LogUtil.biubiubiu("ACTION_RECEIVE_RECORD_CALL_UP");
-
-                        PersistentDataCacheEntity.getInstance().setCallNumber(intent.getStringExtra("KEY_CALL_OUT_NUMBER"));
-                        LogUtil.biubiubiu("call_number:"+intent.getStringExtra("KEY_CALL_OUT_NUMBER"));
-
-                        PersistentDataCacheEntity.getInstance().setCallState(intent.getIntExtra("KEY_CALL_STATE",1));
-                        LogUtil.biubiubiu("call_state:"+intent.getIntExtra("KEY_CALL_STATE",1));
-
-                        //showToast("Outgoing call is started");
-                        MainActivity.this.startService(new Intent(context, CallRecordingService.class));
-                    } else if(ACTION_RECEIVE_OUTGOING_CALL.equals(action)){
-                        /**
-                         * 去电
-                         */
-                        LogUtil.biubiubiu("ACTION_RECEIVE_OUTGOING_CALL_RING");
-
-                        PersistentDataCacheEntity.getInstance().setCallNumber(intent.getStringExtra("KEY_CALL_OUT_NUMBER"));
-                        LogUtil.biubiubiu("call_number:"+intent.getStringExtra("KEY_CALL_OUT_NUMBER"));
-
-                        PersistentDataCacheEntity.getInstance().setCallState(intent.getIntExtra("KEY_CALL_STATE",1));
-                        LogUtil.biubiubiu("call_state:"+intent.getIntExtra("KEY_CALL_STATE",1));
+                        PersistentDataCacheEntity.getInstance().setCallState(intent.getIntExtra("KEY_CALL_STATE", 1));
+                        LogUtil.biubiubiu("call_state:" + intent.getIntExtra("KEY_CALL_STATE", 1));
 
                         //showToast("Call Ring");
                         MainActivity.this.bindService(new Intent(context, CallRecordingService.class),
-                                recordConnection,Context.BIND_AUTO_CREATE);
+                                recordConnection, Context.BIND_AUTO_CREATE);
                         /**
                          * 获取通话客户姓名
                          */
@@ -565,9 +583,9 @@ public class MainActivity extends BaseFragmentActivity {
                                     @Override
                                     public void responseCallBack(Map<String, Object> dataMap, String status, String message) {
                                         if (BasePresenter.RESPONSE_STATUS_SUCCESS.equals(status)) {
-                                            if(dataMap!=null){
+                                            if (dataMap != null) {
                                                 PersistentDataCacheEntity.getInstance().setCallCustomerName(
-                                                        TypeUtil.getString(dataMap.get(APIKey.USER_NAME),""));
+                                                        TypeUtil.getString(dataMap.get(APIKey.USER_NAME), ""));
                                             }
                                         } else {
                                             showToast(message);
@@ -581,14 +599,83 @@ public class MainActivity extends BaseFragmentActivity {
                                 new MainPresenter.FetchCallInCallBack() {
                                     @Override
                                     public void fetchCallInCallBack(String response) {
-                                        if(response.length()>20){
+                                        if (response.length() > 20) {
                                             int value = pref.loadInt(ShowPref.TYPE_HALF_VALUE,
                                                     ShowPref.TYPE_HALF_DIALOG_DEFAULT);
                                             final int percent = value >= 25 ? (value <= 75 ? value : 75) : 25;
                                             /**
                                              * 来电通话插屏
                                              */
-                                            OverlayView.show(MainActivity.this,response, PersistentDataCacheEntity.getInstance().getCallNumber(), percent);
+                                            OverlayView.show(MainActivity.this, response, PersistentDataCacheEntity.getInstance().getCallNumber(), percent);
+                                        } else {
+                                            showToast(response);
+                                        }
+                                    }
+                                });
+                    } else if (ACTION_RECEIVE_RECORD_CALL_UP.equals(action)) {
+                        /**
+                         * 来电接听
+                         */
+                        /**
+                         * 开启Service 并开始录音
+                         */
+                        LogUtil.biubiubiu("ACTION_RECEIVE_RECORD_CALL_UP");
+
+                        PersistentDataCacheEntity.getInstance().setCallNumber(intent.getStringExtra("KEY_CALL_OUT_NUMBER"));
+                        LogUtil.biubiubiu("call_number:" + intent.getStringExtra("KEY_CALL_OUT_NUMBER"));
+
+                        PersistentDataCacheEntity.getInstance().setCallState(intent.getIntExtra("KEY_CALL_STATE", 1));
+                        LogUtil.biubiubiu("call_state:" + intent.getIntExtra("KEY_CALL_STATE", 1));
+
+                        //showToast("Outgoing call is started");
+                        MainActivity.this.startService(new Intent(context, CallRecordingService.class));
+                    } else if (ACTION_RECEIVE_OUTGOING_CALL.equals(action)) {
+                        /**
+                         * 去电
+                         */
+                        LogUtil.biubiubiu("ACTION_RECEIVE_OUTGOING_CALL_RING");
+
+                        PersistentDataCacheEntity.getInstance().setCallNumber(intent.getStringExtra("KEY_CALL_OUT_NUMBER"));
+                        LogUtil.biubiubiu("call_number:" + intent.getStringExtra("KEY_CALL_OUT_NUMBER"));
+
+                        PersistentDataCacheEntity.getInstance().setCallState(intent.getIntExtra("KEY_CALL_STATE", 1));
+                        LogUtil.biubiubiu("call_state:" + intent.getIntExtra("KEY_CALL_STATE", 1));
+
+                        //showToast("Call Ring");
+                        MainActivity.this.bindService(new Intent(context, CallRecordingService.class),
+                                recordConnection, Context.BIND_AUTO_CREATE);
+                        /**
+                         * 获取通话客户姓名
+                         */
+                        mainPresenter.fetchCallInCustomerInformation(PersistentDataCacheEntity.getInstance().getCallNumber(),
+                                new MainPresenter.ResponseCallBack() {
+                                    @Override
+                                    public void responseCallBack(Map<String, Object> dataMap, String status, String message) {
+                                        if (BasePresenter.RESPONSE_STATUS_SUCCESS.equals(status)) {
+                                            if (dataMap != null) {
+                                                PersistentDataCacheEntity.getInstance().setCallCustomerName(
+                                                        TypeUtil.getString(dataMap.get(APIKey.USER_NAME), ""));
+                                            }
+                                        } else {
+                                            showToast(message);
+                                        }
+                                    }
+                                });
+                        /**
+                         * 获取通话插屏页面url
+                         */
+                        mainPresenter.fetchCallInPage(PersistentDataCacheEntity.getInstance().getCallNumber(),
+                                new MainPresenter.FetchCallInCallBack() {
+                                    @Override
+                                    public void fetchCallInCallBack(String response) {
+                                        if (response.length() > 20) {
+                                            int value = pref.loadInt(ShowPref.TYPE_HALF_VALUE,
+                                                    ShowPref.TYPE_HALF_DIALOG_DEFAULT);
+                                            final int percent = value >= 25 ? (value <= 75 ? value : 75) : 25;
+                                            /**
+                                             * 来电通话插屏
+                                             */
+                                            OverlayView.show(MainActivity.this, response, PersistentDataCacheEntity.getInstance().getCallNumber(), percent);
                                         } else {
                                             showToast(response);
                                         }
@@ -605,7 +692,7 @@ public class MainActivity extends BaseFragmentActivity {
                                 MainActivity.this.startService(new Intent(MainActivity.this, CallRecordingService.class));
                             }
                         }, 4000);
-                    } else if(ACTION_RECEIVE_RECORD_CALL_DOWN.equals(action)){
+                    } else if (ACTION_RECEIVE_RECORD_CALL_DOWN.equals(action)) {
                         LogUtil.biubiubiu("ACTION_RECEIVE_RECORD_CALL_DOWN");
                         recordBinder.stopCallRecord();
                     }

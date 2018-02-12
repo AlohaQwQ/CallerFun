@@ -176,8 +176,10 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenter> impl
             Map<String, Object> responseMap = null;
             if (!TextUtils.isEmpty(response))
                 responseMap =  new CommonJSONParser().parse(response);
-            if(responseMap!=null)
+            if(responseMap!=null){
                 PersistentDataCacheEntity.getInstance().setToken(TypeUtil.getString(responseMap.get(APIKey.USER_TOKEN),""));
+                PersistentDataCacheEntity.getInstance().setUserHearImg(TypeUtil.getString(responseMap.get("avatar"),""));
+            }
             PersistentDataCacheEntity.getInstance().setName(username);
             finish();
         } else {

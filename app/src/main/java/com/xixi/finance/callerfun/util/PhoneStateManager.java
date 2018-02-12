@@ -26,5 +26,8 @@ public class PhoneStateManager {
      */
     public static boolean isCallOut = false;
 
+    /**
+     * 呼出状态
+     */
     public static int stateChange = 0;
 }

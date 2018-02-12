@@ -42,6 +42,7 @@ public class APIKey {
     public static final String USER_USER_NAME2 = "userName";
     public static final String USER_NAME = "name";
     public static final String USER_IDCARD = "idcard";
+    public static final String USER_HEAD_IMG = "sex";
     public static final String USER_TRANSACT_PASSWORD = "transactPassword";
     public static final String USER_HOME_ADDRESS = "homeAddress";
     public static final String USER_DORM_ADDRESS = "dormAddress";

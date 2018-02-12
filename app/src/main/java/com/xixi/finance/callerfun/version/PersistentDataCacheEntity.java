@@ -384,4 +384,13 @@ public class PersistentDataCacheEntity {
         return deviceId;
     }
 
+    public void setUserHearImg(String img) {
+        editor.putString(APIKey.USER_HEAD_IMG, img);
+        editor.commit();
+    }
+
+    public String getUserHearImg() {
+        return sharedPreferences.getString(APIKey.USER_HEAD_IMG, "");
+    }
+
 }

@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.xixi.finance.callerfun.R;
 import com.xixi.finance.callerfun.constant.ServiceAPIConstant;
+import com.xixi.finance.callerfun.util.DpToPxUtil;
 import com.xixi.finance.callerfun.util.LogUtil;
 import com.xixi.finance.callerfun.util.Utils;
 import com.xixi.finance.callerfun.version.PersistentDataCacheEntity;
@@ -162,8 +163,10 @@ public class OverlayView extends Overlay {
      */
     private static ViewGroup init(Context context, String number, int layout, int percentScreen) {
         WindowManager.LayoutParams params = getShowingParams();
-        int height = getHeight(context, percentScreen);
+        //int height = getHeight(context, percentScreen);
+        int height = DpToPxUtil.dp2px(450);
         params.height = height;
+        LogUtil.biubiubiu("params.height: " + height);
         ViewGroup overlay = init(context, layout, params);
 
         initView(overlay, number, percentScreen);
@@ -321,6 +324,7 @@ public class OverlayView extends Overlay {
                 super.onReceivedTitle(view, title);
             }
         });
+        webView.setBackgroundColor(0);
         if (!TextUtils.isEmpty(mWebPageHtml)) {
             webView.loadDataWithBaseURL(ServiceAPIConstant.API_BASE_PAGE_URL, mWebPageHtml , "text/html","utf-8", null);
         }

@@ -20,6 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import static android.R.attr.tag;
+
 /**
  * Created by Aloha on 16/6/3.
  * Recycleview 万能适配器ViewHolder
@@ -218,9 +220,24 @@ public class SuperRecycleViewHolder extends RecyclerView.ViewHolder {
         view.setTag(tag);
     }
 
+    public void setEnabled(int viewId, boolean isEnable) {
+        View view = getView(viewId);
+        view.setEnabled(isEnable);
+    }
+
     public void setTag(int viewId, int key, Object tag) {
         View view = getView(viewId);
         view.setTag(key, tag);
+    }
+
+    public void setTextViewGravity(int viewId, int gravity) {
+        TextView view = getView(viewId);
+        view.setGravity(gravity);
+    }
+
+    public void setLayoutParams(int viewId,ViewGroup.LayoutParams params) {
+        View view = getView(viewId);
+        view.setLayoutParams(params);
     }
 
     public void setChecked(int viewId, boolean checked) {

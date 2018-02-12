@@ -212,6 +212,25 @@ public class AudioFileUtils {
      *
      * @return
      */
+    public static int getRecordDurationSecond(String recordPath) {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        int duration = 0;
+        try {
+            mediaPlayer.setDataSource(recordPath);
+            mediaPlayer.prepare();
+            duration = mediaPlayer.getDuration();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        LogUtil.biubiubiu("AudioFile-getRecordDuration:"+duration/1000);
+        return duration/1000;
+    }
+
+    /**
+     * 获取录音文件时长(秒)
+     *
+     * @return
+     */
     public static int getRecordDurationSecond(int duration) {
         return (int) Math.ceil(duration / 1000);
     }
@@ -282,7 +301,11 @@ public class AudioFileUtils {
             Long second = (duration - day * dd - hour * hh - minute * mi) / ss;
 
             if (minute > 0) {
-                sb.append(minute + ":");
+                if(minute<10) {
+                    sb.append("0" + minute + ":");
+                } else {
+                    sb.append(minute + ":");
+                }
             }
             if (second > 0) {
                 if (minute > 0) {

@@ -6,12 +6,14 @@ package com.xixi.finance.callerfun.constant;
 public class ServiceAPIConstant {
 
     //正式环境
-    public static String API_BASE_URL = "http://heehee.com.cn:8000/crm_test/app/interface.php?";
+    public static String API_BASE_URL = "http://192.168.1.5:8000/crm/app/interface.php?";
 
-    public static String API_BASE_PAGE_URL = "http://heehee.com.cn:8000/crm_test/crm_test/";
+    public static String API_BASE_PAGE_URL = "http://192.168.1.5:8000/crm/crm/";
 
     //测试环境
-    public static String API_BASE_URL_PUBLIC_TEST = "http://heehee.com.cn:8000/crm_test/app/interface.php?";
+/*    public static String API_BASE_URL = "http://heehee.com.cn:8000/crm_test/app/interface.php?";
+
+    public static String API_BASE_PAGE_URL = "http://heehee.com.cn:8000/crm_test/crm_test/";*/
 
     /* 用户 */
     public static final String REQUEST_API_USER_LOGIN = "action=login";

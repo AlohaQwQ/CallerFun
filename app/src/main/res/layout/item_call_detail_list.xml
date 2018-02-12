@@ -28,48 +28,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:layout_weight="1"
-            android:text="06" />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tv_call_amount_duration_item_call_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_weight="1.4"
-            android:text="04:05:12" />
+            android:layout_weight="0.4"
+            android:gravity="center_horizontal" />
 
         <TextView
             android:id="@+id/tv_call_type1_item_call_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:layout_weight="1"
-            android:text="08" />
+            android:layout_weight="1.1" />
 
         <TextView
             android:id="@+id/tv_call_type2_item_call_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:layout_weight="1"
-            android:text="08" />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tv_call_type3_item_call_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:layout_weight="1"
-            android:text="08" />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tv_call_type4_item_call_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:layout_weight="1"
-            android:text="8" />
+            android:layout_weight="1" />
     </LinearLayout>
 
     <View
