@@ -187,6 +187,9 @@ public class RecordUtil {
         //将录音状态设置成正在录音状态
         status = Status.STATUS_START;
         while (status == Status.STATUS_START) {
+            /**
+             * 读取录音字节流并写入
+             */
             readsize = audioRecord.read(audiodata, 0, bufferSizeInBytes);
             if (AudioRecord.ERROR_INVALID_OPERATION != readsize && fos != null) {
                 try {

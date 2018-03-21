@@ -23,7 +23,6 @@ import com.xixi.finance.callerfun.ui.activity.MainActivity;
 import com.xixi.finance.callerfun.ui.view.main.IRecordView;
 import com.xixi.finance.callerfun.util.AudioFileUtils;
 import com.xixi.finance.callerfun.util.LogUtil;
-import com.xixi.finance.callerfun.version.PersistentDataCacheEntity;
 
 import java.io.File;
 import java.io.IOException;
@@ -220,7 +219,7 @@ public class RecordFragment extends BaseSwipeRefreshFragment<IRecordView, Record
     }
 
     public void initData() {
-        if(PersistentDataCacheEntity.getInstance().isLogin()){
+       // if(PersistentDataCacheEntity.getInstance().isLogin()){
             layStatusNologin.setVisibility(View.GONE);
             /**
              * 获取录音文件夹
@@ -257,10 +256,10 @@ public class RecordFragment extends BaseSwipeRefreshFragment<IRecordView, Record
                 layEmptyStatus.setVisibility(View.VISIBLE);
                 showContentView();
             }
-        } else {
+        /*} else {
             layStatusNologin.setVisibility(View.VISIBLE);
             showContentView();
-        }
+        }*/
     }
 
     /**
